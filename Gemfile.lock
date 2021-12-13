@@ -5,6 +5,7 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     ansi (1.5.0)
     ast (2.4.2)
+    bcrypt (3.1.16)
     capybara (3.36.0)
       addressable
       matrix
@@ -18,6 +19,7 @@ GEM
     docile (1.4.0)
     matrix (0.3.1)
     mini_mime (1.1.2)
+    multi_json (1.15.0)
     mustermann (1.1.1)
       ruby2_keywords (~> 0.0.1)
     nokogiri (1.12.5-arm64-darwin)
@@ -77,6 +79,14 @@ GEM
       rack (~> 2.2)
       rack-protection (= 2.1.0)
       tilt (~> 2.0)
+    sinatra-contrib (2.1.0)
+      multi_json
+      mustermann (~> 1.0)
+      rack-protection (= 2.1.0)
+      sinatra (= 2.1.0)
+      tilt (~> 2.0)
+    sinatra-flash (0.3.0)
+      sinatra (>= 1.0.0)
     terminal-table (3.0.2)
       unicode-display_width (>= 1.1.1, < 3)
     tilt (2.0.10)
@@ -89,13 +99,17 @@ PLATFORMS
   arm64-darwin-20
 
 DEPENDENCIES
+  bcrypt (~> 3.1)
   capybara
   pg
+  rack (~> 2.2)
   rspec
   rubocop (= 1.23.0)
   simplecov
   simplecov-console
   sinatra
+  sinatra-contrib (~> 2.1)
+  sinatra-flash (~> 0.3.0)
   webrick
 
 RUBY VERSION
