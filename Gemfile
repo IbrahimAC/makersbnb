@@ -19,10 +19,10 @@ group :development, :test do
   gem 'webrick'
 end
 
-gem "sinatra-flash", "~> 0.3.0"
+gem 'sinatra-flash', '~> 0.3.0'
 
-gem "rack", "~> 2.2"
+gem 'rack', '~> 2.2'
 
-gem "sinatra-contrib", "~> 2.1"
+gem 'sinatra-contrib', '~> 2.1'
 
-gem "bcrypt", "~> 3.1"
+gem 'bcrypt', '~> 3.1'
