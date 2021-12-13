@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
 require 'sinatra/base'
-require 'sinatra/reloader' if development?
+require 'sinatra/reloader'
 
 # AirBnB class
 class AirBnB < Sinatra::Base
+  configure :development do
+    register Sinatra::Reloader
+  end
   get '/' do
-    'Welcome to Mango AirBnB!'
+    'Welcome to Mango AirBnB'
   end
 
   run! if app_file == $PROGRAM_NAME
