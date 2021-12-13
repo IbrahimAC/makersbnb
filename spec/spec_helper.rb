@@ -1,6 +1,7 @@
 ENV['ENVIRONMENT'] = 'test'
 # frozen_string_literal: true
-require_relative './database_setup'
+require_relative './database_helper'
+require_relative '../database_connection_setup'
 require 'simplecov'
 require 'simplecov-console'
 require 'rspec'
