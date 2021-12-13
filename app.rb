@@ -4,7 +4,7 @@ require 'sinatra/base'
 require 'sinatra/reloader'
 
 # AirBnB class
-class AirBnB < Sinatra::Base
+class AirBnb < Sinatra::Base
   configure :development do
     register Sinatra::Reloader
   end
