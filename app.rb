@@ -61,7 +61,7 @@ class AirBnb < Sinatra::Base
     @spaces = Space.all
     erb :spaces
   end
-  
+
   get '/user/signup/confirmation' do
     @user = User.find(session[:id])
     erb :confirmation
