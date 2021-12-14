@@ -16,6 +16,7 @@ class AirBnb < Sinatra::Base
   register Sinatra::Flash
 
   get '/' do
+    @user = User.find(session[:id])
     erb :index
   end
 
