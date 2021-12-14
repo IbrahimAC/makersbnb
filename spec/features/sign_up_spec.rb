@@ -1,13 +1,13 @@
-# frozen_string_literal: true
+feature "sign up" do
+  scenario "user should be able to sign up" do
+    sign_up
+    expect(page).to have_content("Welcome to MakersBnB, Tomas")
+  end
 
-feature 'sign up' do
-  scenario 'user should be able to sign up' do
-    visit('/')
-    click_button('Sign up')
-    fill_in('name', with: 'Tomas')
-    fill_in('email', with: 'tomas_fake_email@gmail.com')
-    fill_in('password', with: 'password123')
-    click_button('Sign up')
-    expect(page).to have_content('Logged in as Tomas')
+  scenario 'user cannot sign up with existing email' do
+    sign_up
+    visit('/user/new')
+    sign_up
+    expect(page).to have_content("Email address in use. Please log in or sign up with a different email.")
   end
 end

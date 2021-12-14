@@ -10,6 +10,7 @@ require File.join(File.dirname(__FILE__), '..', 'app.rb')
 require 'rspec'
 require 'capybara'
 require 'capybara/rspec'
+require_relative './web_helper'
 Capybara.app = AirBnb
 
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
