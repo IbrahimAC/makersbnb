@@ -8,7 +8,7 @@ feature 'sign up' do
 
   scenario 'user cannot sign up with existing email' do
     sign_up
-    visit('/user/new')
+    click_button('Log out')
     sign_up
     expect(page).to have_content('Email address in use. Please log in or sign up with a different email.')
   end
