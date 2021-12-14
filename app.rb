@@ -2,6 +2,7 @@
 
 require 'sinatra/base'
 require 'sinatra/reloader'
+require './lib/user'
 
 # AirBnB class
 class AirBnb < Sinatra::Base
@@ -19,11 +20,12 @@ class AirBnb < Sinatra::Base
   end
 
   post 'user/signup' do
-    redirect '/spaces'
+    user = User.create(params[:name], params[:email], params[:password])
+    session[:id] = user.id
+    redirect 'user/signup/confirmation'
   end
 
-  get '/spaces' do
-    erb :spaces
+  get 'user/signup/confirmation' do
   end
 
   run! if app_file == $PROGRAM_NAME
