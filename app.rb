@@ -3,6 +3,7 @@
 require 'sinatra/base'
 require 'sinatra/reloader'
 require './lib/user'
+require './lib/space'
 require './database_connection_setup'
 require 'sinatra/flash'
 
@@ -56,6 +57,11 @@ class AirBnb < Sinatra::Base
     end
   end
 
+  get '/spaces' do
+    @spaces = Space.all
+    erb :spaces
+  end
+  
   get '/user/signup/confirmation' do
     @user = User.find(session[:id])
     erb :confirmation
