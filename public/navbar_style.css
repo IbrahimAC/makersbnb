@@ -1,0 +1,24 @@
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+  position: fixed; /* Set the navbar to fixed position */
+  top: 0; /* Position the navbar at the top of the page */
+  width: 100%; /* Full width */
+  height: 50px;
+  display: flex;
+  align-items: center;
+  align-content: center;
+}
+
+.navbar * {
+  display: inline-block;
+}
+
+.navbar p {
+  color: white;
+}
+
+/* Main content */
+body {
+  margin-top: 70px; /* Add a top margin to avoid content overlay */
+}

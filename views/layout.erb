@@ -1,7 +1,32 @@
+<head>
+  <link href="<%= url('/navbar_style.css') %>" rel="stylesheet" type="text/css" /> 
+</head>
+
 <% flash.keys.each do |type| %>
   <div data-alert class="flash <%= type %> alert-box radius">
     <%= flash[type] %>
     <a href="#" class="close">&times;</a>
   </div>
 <% end %>
-<%= yield %>
+
+<div class="navbar">
+  <p>MakersBnB
+  <% if @user %>
+  Logged in as <%= @user.name %>
+  <form action="/user/logout" method="post">
+    <input type="submit" value="Log out">
+  </form>
+  <% else %>
+  <form action="/user/new" method="get">
+    <input type="submit" value="Sign up">
+  </form>
+  <form action="/user/login" method="get">
+    <input type="submit" value="Log in">
+  </form>
+  </p>
+<% end %>
+</div>
+
+<body>
+  <%= yield %>
+</body>
