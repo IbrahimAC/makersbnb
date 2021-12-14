@@ -1,0 +1,12 @@
+<% if @user %>
+Welcome to MakersBnB, <%= @user.name %>
+<form action="/user/logout" method="post">
+  <input type="submit" value="Log out">
+</form>
+<% end %>
+
+<% unless @user %>
+  <form action="/user/new" method="get">
+    <input type="submit" value="Back to sign up">
+  </form>
+<% end %>
