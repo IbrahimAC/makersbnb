@@ -11,7 +11,7 @@ describe User do
   end
 
   it 'user can be found by id' do
-    DatabaseConnection.query("ALTER SEQUENCE users_id_seq RESTART WITH 1;")
+    DatabaseConnection.query('ALTER SEQUENCE users_id_seq RESTART WITH 1;')
     user = User.create('Tomas', 'tomas_fake_email@gmail.com', 'password123')
     found_user = User.find(1)
     expect(found_user.id).to eq user.id
@@ -38,5 +38,4 @@ describe User do
     logged_in_user = User.authenticate('tomas_fake_email@gmail.com', 'fake')
     expect(logged_in_user).to be nil
   end
-
 end
