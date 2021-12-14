@@ -1,0 +1,1 @@
+CREATE TABLE bookings(id SERIAL PRIMARY KEY, date DATE, space_id int REFERENCES spaces(id), user_id int REFERENCES users(id), confirmed BOOLEAN);
