@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ENV['ENVIRONMENT'] = 'test'
 # frozen_string_literal: true
 require_relative './database_helper'

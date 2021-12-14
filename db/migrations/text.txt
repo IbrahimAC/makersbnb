@@ -1,0 +1,3 @@
+git checkout -b your-new-branch
+git add <files>
+git commit -m <message>
