@@ -42,4 +42,17 @@ class Space
       )
     end
   end
+
+  def self.find(id:)
+      res = DatabaseConnection.query("SELECT * FROM spaces WHERE id = $1", [id])
+      Space.new(
+        id: res[0]['id'],
+        title: res[0]['title'],
+        description: res[0]['description'],
+        picture: res[0]['picture'],
+        price: res[0]['price'],
+        user_id: res[0]['user_id']
+      )
+  end
+
 end
