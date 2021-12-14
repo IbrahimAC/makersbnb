@@ -4,7 +4,7 @@ require 'sinatra/base'
 require 'sinatra/reloader'
 require './lib/user'
 require './lib/space'
-require './database_connection_setup.rb'
+require './database_connection_setup'
 require 'sinatra/flash'
 
 # AirBnB class
@@ -17,6 +17,7 @@ class AirBnb < Sinatra::Base
   register Sinatra::Flash
 
   get '/' do
+    @user = User.find(session[:id])
     erb :index
   end
 
@@ -26,8 +27,8 @@ class AirBnb < Sinatra::Base
 
   post '/user/signup' do
     user = User.create(params[:name], params[:email], params[:password])
-    if user == nil
-      flash[:error] = "Email address in use. Please log in or sign up with a different email."
+    if user.nil?
+      flash[:error] = 'Email address in use. Please log in or sign up with a different email.'
       session[:id] = nil
     else
       session[:id] = user.id
@@ -38,7 +39,7 @@ class AirBnb < Sinatra::Base
   get '/user/login' do
     erb :login
   end
- 
+
   post '/user/logout' do
     session[:id] = nil
     redirect '/'
@@ -46,8 +47,8 @@ class AirBnb < Sinatra::Base
 
   post '/user/authenticate' do
     user = User.authenticate(params[:email], params[:password])
-    if user == nil
-      flash[:error] = "Incorrect email or password."
+    if user.nil?
+      flash[:error] = 'Incorrect email or password.'
       session[:id] = nil
       redirect '/user/login'
     else

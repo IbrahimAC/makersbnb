@@ -14,6 +14,7 @@ class User
 
   def self.create(name, email, password)
     return nil if User.exists?(email)
+
     encrypted_password = BCrypt::Password.create(password)
     result = DatabaseConnection.query("INSERT INTO users(name, email, password)
                                       VALUES($1,$2,$3) RETURNING id, name, email, password;",
@@ -22,24 +23,23 @@ class User
   end
 
   def self.find(id)
-    return nil if id == nil
-    result = DatabaseConnection.query("SELECT * FROM users WHERE id=$1", [id])
+    return nil if id.nil?
+
+    result = DatabaseConnection.query('SELECT * FROM users WHERE id=$1', [id])
     User.new(result[0]['id'], result[0]['name'], result[0]['email'], result[0]['password'])
   end
 
   def self.exists?(email)
-    result = DatabaseConnection.query("SELECT exists (SELECT 1 FROM users WHERE email = $1 LIMIT 1);", [email])
-    result[0]["exists"] == "t"
+    result = DatabaseConnection.query('SELECT exists (SELECT 1 FROM users WHERE email = $1 LIMIT 1);', [email])
+    result[0]['exists'] == 't'
   end
 
   def self.authenticate(email, password)
     return nil unless User.exists?(email)
-    result = DatabaseConnection.query("SELECT * FROM users WHERE email=$1", [email])
-    if BCrypt::Password.new(result[0]["password"]) == password
+
+    result = DatabaseConnection.query('SELECT * FROM users WHERE email=$1', [email])
+    if BCrypt::Password.new(result[0]['password']) == password
       User.new(result[0]['id'], result[0]['name'], result[0]['email'], result[0]['password'])
-    else
-      return nil
     end
   end
-
 end
