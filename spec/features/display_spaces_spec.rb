@@ -2,7 +2,7 @@
 
 feature 'displays a list of spaces' do
   scenario 'spaces get shown to user' do
-    res = User.create(name: 'Test', email: 'test@example.com', password: 'password')
+    res = User.create('Test', 'test@example.com', 'password')
     Space.create(title: 'House', description: 'My house', picture: 'url', price: 120, user_id: res.id)
     visit('/spaces')
 

@@ -9,7 +9,7 @@ describe 'Space' do
     # RETURNING id, name, email, password;",
     # ["test","email","password"])
 
-    user = User.create(name: 'Test', email: 'test@example.com', password: 'password')
+    user = User.create('Test', 'test@example.com', 'password')
     res = Space.create(title: 'House', description: 'My house', picture: 'url', price: 120, user_id: user.id)
 
     expect(res).to be_a Space
@@ -21,7 +21,7 @@ describe 'Space' do
   end
 
   it 'returns a list of all spaces' do
-    user = User.create(name: 'Test', email: 'test@example.com', password: 'password')
+    user = User.create('Test', 'test@example.com', 'password')
     space1 = Space.create(title: 'House', description: 'My house', picture: 'url', price: 120, user_id: user.id)
     space2 = Space.create(title: 'Second House', description: 'My second house', picture: 'url', price: 130,
                           user_id: user.id)
