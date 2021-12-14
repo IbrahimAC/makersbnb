@@ -1,3 +1,5 @@
+require_relative 'database_connection'
+
 class Space
   attr_reader :id, :title, :description, :picture, :price, :user_id
   def initialize(id:,title:,description:,picture:,price:,user_id:)
@@ -22,4 +24,18 @@ class Space
       price: res[0]["price"],
       user_id: res[0]["user_id"])
   end
+
+  def self.all
+    res = DatabaseConnection.query("SELECT * FROM spaces;")
+    res.map do |space| 
+      Space.new(
+        id: space["id"], 
+        title: space["title"],
+        description: space["description"],
+        picture: space["picture"],
+        price: space["price"],
+        user_id: space["user_id"])
+    end
+  end
+
 end

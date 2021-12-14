@@ -2,6 +2,8 @@
 
 require 'sinatra/base'
 require 'sinatra/reloader'
+require_relative './lib/space.rb'
+require_relative './database_connection_setup.rb'
 
 # AirBnB class
 class AirBnb < Sinatra::Base
@@ -22,6 +24,7 @@ class AirBnb < Sinatra::Base
   end
 
   get '/spaces' do
+    @spaces = Space.all
     erb :spaces
   end
 
