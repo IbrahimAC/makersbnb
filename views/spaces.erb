@@ -1,1 +1,5 @@
-Logged in as <%= @user.name %>
+<% @spaces.each do |space| %>
+  <%= space.title %>
+  <%= space.price %>
+  <%= space.picture %>
+<% end %>

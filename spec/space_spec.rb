@@ -18,4 +18,15 @@ describe "Space" do
     expect(res.user_id).to eq user.id
   end
 
+  it "returns a list of all spaces" do
+    user = User.create(name: "Test", email: "test@example.com", password: "password")
+    space1 = Space.create(title: "House", description: "My house", picture: "url", price: 120, user_id: user.id)
+    space2 = Space.create(title: "Second House", description: "My second house", picture: "url", price: 130, user_id: user.id)
+
+    res = Space.all
+    expect(res.length).to eq 2
+    expect(res[0].id).to eq space1.id
+    expect(res[1].id).to eq space2.id
+  end
+
 end
