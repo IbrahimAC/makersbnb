@@ -54,7 +54,6 @@ class AirBnb < Sinatra::Base
     user = User.authenticate(params[:email], params[:password])
     if user.nil?
       flash[:error] = 'Incorrect email or password.'
-      session[:id] = nil
       redirect '/user/login'
     else
       session[:id] = user.id
