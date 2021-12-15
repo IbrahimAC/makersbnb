@@ -26,7 +26,7 @@ class AirBnb < Sinatra::Base
   end
 
   post '/user/signup' do
-    user = User.create(params[:name], params[:email], params[:password])
+    user = User.create(name: params[:name], email: params[:email], password: params[:password])
     if user.nil?
       flash[:error] = 'Email address in use. Please log in or sign up with a different email.'
       session[:id] = nil
