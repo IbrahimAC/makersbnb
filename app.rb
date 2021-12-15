@@ -4,6 +4,7 @@ require 'sinatra/base'
 require 'sinatra/reloader'
 require './lib/user'
 require './lib/space'
+require './lib/booking'
 require './database_connection_setup'
 require 'sinatra/flash'
 
@@ -80,6 +81,13 @@ class AirBnb < Sinatra::Base
   get '/user/signup/confirmation' do
     @user = User.find(session[:id])
     erb :confirmation
+  end
+
+  get '/bookings/:id/new' do
+    @user = User.find(session[:id])
+    @available_dates = ['2022-01-01', '2022-01-31']
+    @unavailable_dates = Booking.unavailable_dates(params[:id])
+    erb :'bookings/new'
   end
 
   run! if app_file == $PROGRAM_NAME
