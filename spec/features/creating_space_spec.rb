@@ -1,5 +1,7 @@
-feature "Create" do
-  scenario "a user can create a space" do
+# frozen_string_literal: true
+
+feature 'Create' do
+  scenario 'a user can create a space' do
     sign_up
     visit '/spaces/new'
     fill_in 'title', with: 'Test house'

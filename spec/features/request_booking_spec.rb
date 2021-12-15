@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 feature 'requesting booking' do
   scenario 'user should be able to request booking' do
     sign_up
