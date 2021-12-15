@@ -1,2 +1,16 @@
 <h1>Request made</h1>
 <a href="/spaces">All spaces</a>
+
+<h1>Received requests</h1>
+<% @received_requests.each do |booking| %>
+  <p><%= Space.find(id: booking.space_id).title %></p>
+  <% if booking.confirmed == nil %> 
+    <p>Not confirmed</p>
+  <% elsif booking.confirmed == true %>
+    <p>Confirmed</p>
+  <% elsif booking.confirmed == false %>
+    <p>Rejected</p>
+  <% end %>
+  <p><%=booking.date %></p>
+  <p>Requested by <%=User.find(booking.user_id).name%></p>
+<% end %>

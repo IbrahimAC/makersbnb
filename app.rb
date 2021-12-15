@@ -65,6 +65,7 @@ class AirBnb < Sinatra::Base
   end
 
   get '/user/bookings' do
+    @received_requests = Booking.received_requests(session[:id])
     erb :'users/booking'
   end
 
