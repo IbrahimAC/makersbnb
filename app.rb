@@ -17,8 +17,11 @@ class AirBnb < Sinatra::Base
   enable :sessions
   register Sinatra::Flash
 
-  get '/' do
+  before do
     @user = User.find(session[:id])
+  end
+
+  get '/' do
     erb :index
   end
 
@@ -38,8 +41,7 @@ class AirBnb < Sinatra::Base
   end
 
   get '/user/signup/confirmation' do
-    @user = User.find(session[:id])
-    erb :confirmation
+    erb :'users/confirmation'
   end
 
   get '/user/login' do
@@ -67,36 +69,30 @@ class AirBnb < Sinatra::Base
   end
 
   get '/spaces' do
-    @user = User.find(session[:id])
     @spaces = Space.all
     erb :'spaces/index'
   end
 
   get '/spaces/new' do
-    @user = User.find(session[:id])
     erb :'spaces/new'
   end
 
   post '/spaces' do
-    @user = User.find(session[:id])
     space = Space.create(title: params[:title], description: params[:description], picture: params[:picture], price: params[:price], user_id: session[:id])
     redirect "/spaces/#{space.id}"
   end
 
   get '/spaces/:id' do
-    @user = User.find(session[:id])
     @space = Space.find(id: params[:id])
     @space_owner = User.find(@space.user_id)
     erb :'spaces/space'
   end
 
   get '/user/signup/confirmation' do
-    @user = User.find(session[:id])
     erb :'users/confirmation'
   end
 
   get '/bookings/:id/new' do
-    @user = User.find(session[:id])
     @space_id = params[:id]
     @available_dates = ['2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-05', '2022-01-06']
     # @unavailable_dates = Booking.unavailable_dates(params[:id])
