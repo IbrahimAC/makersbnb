@@ -78,14 +78,16 @@ class AirBnb < Sinatra::Base
   end
 
   post '/spaces' do
-    space = Space.create(title: params[:title], description: params[:description], picture: params[:picture], price: params[:price], user_id: session[:id])
+    p availability_from: session[:availability_from]
+    p space = Space.create(title: params[:title], description: params[:description], picture: params[:picture],
+                           price: params[:price], user_id: session[:id], availability_from: params[:availability_from], availability_until: params[:availability_until])
     redirect "/spaces/#{space.id}"
   end
 
   get '/spaces/:id' do
     @space = Space.find(id: params[:id])
     @space_owner = User.find(@space.user_id)
-    erb :'spaces/space'
+    erb :'/spaces/space'
   end
 
   get '/user/signup/confirmation' do
