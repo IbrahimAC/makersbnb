@@ -2,3 +2,7 @@
 <p><%= @space.description %></p>
 <p>£<%= @space.price %></p>
 <p>Posted by <%= @space_owner.name %></p>
+
+<button>
+  <a href="/bookings/<%= @space.id %>/new">Request booking</a>
+</button>
