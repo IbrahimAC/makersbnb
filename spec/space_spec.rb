@@ -9,7 +9,7 @@ describe 'Space' do
     # RETURNING id, name, email, password;",
     # ["test","email","password"])
 
-    user = User.create('Test', 'test@example.com', 'password')
+    user = User.create(name: 'Test', email: 'test@example.com', password: 'password')
     res = Space.create(title: 'House', description: 'My house', picture: 'url', price: 120, user_id: user.id)
 
     expect(res).to be_a Space
@@ -22,7 +22,7 @@ describe 'Space' do
 
   it 'returns a list of all spaces' do
     # User.create needs keywords implemented
-    user = User.create('Test', 'test@example.com', 'password')
+    user = User.create(name: 'Test', email: 'test@example.com', password: 'password')
     space1 = Space.create(title: 'House', description: 'My house', picture: 'url', price: 120, user_id: user.id)
     space2 = Space.create(title: 'Second House', description: 'My second house', picture: 'url', price: 130,
                           user_id: user.id)
@@ -34,7 +34,7 @@ describe 'Space' do
   end
 
   it 'find a space by id' do
-    user = User.create('Test', 'test@example.com', 'password')
+    user = User.create(name: 'Test', email: 'test@example.com', password: 'password')
     space = Space.create(title: 'House', description: 'My house', picture: 'url', price: 120, user_id: user.id)
     found_space = Space.find(id: space.id)
 
