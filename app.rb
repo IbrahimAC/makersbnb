@@ -23,7 +23,7 @@ class AirBnb < Sinatra::Base
   end
 
   get '/user/new' do
-    erb :signup
+    erb :'users/signup'
   end
 
   post '/user/signup' do
@@ -38,7 +38,7 @@ class AirBnb < Sinatra::Base
   end
 
   get '/user/login' do
-    erb :login
+    erb :'users/login'
   end
 
   post '/user/logout' do
@@ -56,6 +56,10 @@ class AirBnb < Sinatra::Base
       session[:id] = user.id
       redirect '/spaces'
     end
+  end
+
+  get '/user/bookings' do
+    erb :'users/booking'
   end
 
   get '/spaces' do
@@ -80,14 +84,21 @@ class AirBnb < Sinatra::Base
 
   get '/user/signup/confirmation' do
     @user = User.find(session[:id])
-    erb :confirmation
+    erb :'users/confirmation'
   end
 
   get '/bookings/:id/new' do
     @user = User.find(session[:id])
-    @available_dates = ['2022-01-01', '2022-01-31']
-    @unavailable_dates = Booking.unavailable_dates(params[:id])
+    @space_id = params[:id]
+    @available_dates = ['2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-05', '2022-01-06']
+    # @unavailable_dates = Booking.unavailable_dates(params[:id])
+    @unavailable_dates = ['2022-01-02']
     erb :'bookings/new'
+  end
+
+  post '/bookings/:id' do
+    Booking.request(session[:id], params[:id], params[:date])
+    redirect 'user/bookings'
   end
 
   run! if app_file == $PROGRAM_NAME
