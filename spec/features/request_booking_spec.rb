@@ -19,7 +19,7 @@ feature 'requesting booking' do
     click_link('Test house')
     click_button('Request booking')
     fill_in('date', with: '2022-01-05')
-    click_button('Submit')
+    click_button('Make request')
     expect(page).to have_content 'Request made'
   end
 end
