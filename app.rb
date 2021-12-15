@@ -4,6 +4,7 @@ require 'sinatra/base'
 require 'sinatra/reloader'
 require './lib/user'
 require './lib/space'
+require './lib/booking'
 require './database_connection_setup'
 require 'sinatra/flash'
 
@@ -16,17 +17,20 @@ class AirBnb < Sinatra::Base
   enable :sessions
   register Sinatra::Flash
 
-  get '/' do
+  before do
     @user = User.find(session[:id])
+  end
+
+  get '/' do
     erb :index
   end
 
   get '/user/new' do
-    erb :signup
+    erb :'users/signup'
   end
 
   post '/user/signup' do
-    user = User.create(params[:name], params[:email], params[:password])
+    user = User.create(name: params[:name], email: params[:email], password: params[:password])
     if user.nil?
       flash[:error] = 'Email address in use. Please log in or sign up with a different email.'
       session[:id] = nil
@@ -36,12 +40,16 @@ class AirBnb < Sinatra::Base
     redirect 'user/signup/confirmation'
   end
 
+  get '/user/signup/confirmation' do
+    erb :'users/confirmation'
+  end
+
   get '/user/login' do
-    erb :login
+    erb :'users/login'
   end
 
   post '/user/logout' do
-    session[:id] = nil
+    session.clear
     redirect '/'
   end
 
@@ -49,12 +57,15 @@ class AirBnb < Sinatra::Base
     user = User.authenticate(params[:email], params[:password])
     if user.nil?
       flash[:error] = 'Incorrect email or password.'
-      session[:id] = nil
       redirect '/user/login'
     else
       session[:id] = user.id
       redirect '/spaces'
     end
+  end
+
+  get '/user/bookings' do
+    erb :'users/booking'
   end
 
   get '/spaces' do
@@ -80,8 +91,20 @@ class AirBnb < Sinatra::Base
   end
 
   get '/user/signup/confirmation' do
-    @user = User.find(session[:id])
-    erb :confirmation
+    erb :'users/confirmation'
+  end
+
+  get '/bookings/:id/new' do
+    @space_id = params[:id]
+    @available_dates = ['2022-01-01', '2022-01-02', '2022-01-03', '2022-01-04', '2022-01-05', '2022-01-06']
+    # @unavailable_dates = Booking.unavailable_dates(params[:id])
+    @unavailable_dates = ['2022-01-02']
+    erb :'bookings/new'
+  end
+
+  post '/bookings/:id' do
+    Booking.request(session[:id], params[:id], params[:date])
+    redirect 'user/bookings'
   end
 
   run! if app_file == $PROGRAM_NAME
