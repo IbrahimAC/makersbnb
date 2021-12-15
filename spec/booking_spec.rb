@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'booking'
 
 describe Booking do
@@ -28,14 +30,14 @@ describe Booking do
     booking = Booking.request(@user.id, @space.id, '2022-01-08')
 
     confirmed_booking = Booking.confirm(booking.id, true)
-    expect(confirmed_booking.confirmed).to eq "t"
+    expect(confirmed_booking.confirmed).to eq 't'
   end
 
   it 'should be able to reject a booking' do
     booking = Booking.request(@user.id, @space.id, '2022-01-08')
 
     rejected_booking = Booking.confirm(booking.id, false)
-    expect(rejected_booking.confirmed).to eq "f"
+    expect(rejected_booking.confirmed).to eq 'f'
   end
 
   it 'should be able to check if a space has already been booked for a date' do
