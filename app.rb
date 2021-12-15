@@ -27,7 +27,7 @@ class AirBnb < Sinatra::Base
   end
 
   post '/user/signup' do
-    user = User.create(params[:name], params[:email], params[:password])
+    user = User.create(name: params[:name], email: params[:email], password: params[:password])
     if user.nil?
       flash[:error] = 'Email address in use. Please log in or sign up with a different email.'
       session[:id] = nil
@@ -37,12 +37,17 @@ class AirBnb < Sinatra::Base
     redirect 'user/signup/confirmation'
   end
 
+  get '/user/signup/confirmation' do
+    @user = User.find(session[:id])
+    erb :confirmation
+  end
+
   get '/user/login' do
     erb :'users/login'
   end
 
   post '/user/logout' do
-    session[:id] = nil
+    session.clear
     redirect '/'
   end
 
@@ -50,7 +55,6 @@ class AirBnb < Sinatra::Base
     user = User.authenticate(params[:email], params[:password])
     if user.nil?
       flash[:error] = 'Incorrect email or password.'
-      session[:id] = nil
       redirect '/user/login'
     else
       session[:id] = user.id
@@ -63,20 +67,24 @@ class AirBnb < Sinatra::Base
   end
 
   get '/spaces' do
+    @user = User.find(session[:id])
     @spaces = Space.all
     erb :'spaces/index'
   end
 
   get '/spaces/new' do
+    @user = User.find(session[:id])
     erb :'spaces/new'
   end
 
   post '/spaces' do
+    @user = User.find(session[:id])
     space = Space.create(title: params[:title], description: params[:description], picture: params[:picture], price: params[:price], user_id: session[:id])
     redirect "/spaces/#{space.id}"
   end
 
   get '/spaces/:id' do
+    @user = User.find(session[:id])
     @space = Space.find(id: params[:id])
     @space_owner = User.find(@space.user_id)
     erb :'spaces/space'

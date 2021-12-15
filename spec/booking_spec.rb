@@ -2,7 +2,7 @@ require 'booking'
 
 describe Booking do
   it 'should be able to request a new booking' do
-    user = User.create('Tomas', 'tomas_fake_email@gmail.com', 'password123')
+    user = User.create(name: 'Tomas', email: 'tomas_fake_email@gmail.com', password: 'password123')
     space = Space.create(title: 'House', description: 'My house', picture: 'url', price: 120, user_id: user.id)
 
     booking = Booking.request(user.id, space.id, '2022-01-08')
@@ -23,7 +23,7 @@ describe Booking do
   end
 
   it 'should be able to confirm a booking' do
-    user = User.create('Tomas', 'tomas_fake_email@gmail.com', 'password123')
+    user = User.create(name: 'Tomas', email: 'tomas_fake_email@gmail.com', password: 'password123')
     space = Space.create(title: 'House', description: 'My house', picture: 'url', price: 120, user_id: user.id)
     booking = Booking.request(user.id, space.id, '2022-01-08')
 
@@ -32,7 +32,7 @@ describe Booking do
   end
 
   it 'should be able to reject a booking' do
-    user = User.create('Tomas', 'tomas_fake_email@gmail.com', 'password123')
+    user = User.create(name: 'Tomas', email: 'tomas_fake_email@gmail.com', password: 'password123')
     space = Space.create(title: 'House', description: 'My house', picture: 'url', price: 120, user_id: user.id)
     booking = Booking.request(user.id, space.id, '2022-01-08')
 
