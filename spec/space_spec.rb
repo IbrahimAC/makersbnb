@@ -6,13 +6,14 @@ require 'user'
 describe 'Space' do
   before do
     allow(DatabaseConnection).to receive(:query).and_return([{
-      'id' => '1',
-      'title' =>'House',
-      'description' => 'My house',
-      'picture' => 'url',
-      'price' => '120',
-      'user_id' => 1}])
-    @user = double("User", id: 1)
+                                                              'id' => '1',
+                                                              'title' => 'House',
+                                                              'description' => 'My house',
+                                                              'picture' => 'url',
+                                                              'price' => '120',
+                                                              'user_id' => 1
+                                                            }])
+    @user = double('User', id: 1)
   end
 
   it 'creates a instance of space class' do
@@ -28,22 +29,24 @@ describe 'Space' do
 
   it 'returns a list of all spaces' do
     space1 = Space.create(title: 'House', description: 'My house', picture: 'url', price: 120, user_id: @user.id)
-    space2 = Space.create(title: 'Second House', description: 'My second house', picture: 'url', price: 130, user_id: @user.id)
-    
+    space2 = Space.create(title: 'Second House', description: 'My second house', picture: 'url', price: 130,
+                          user_id: @user.id)
+
     allow(DatabaseConnection).to receive(:query).and_return([
-      {'id' => '1',
-      'title' =>'House',
-      'description' => 'My house',
-      'picture' => 'url',
-      'price' => '120',
-      'user_id' => 1},
-      
-      {'id' => '2',
-      'title' =>'Second House',
-      'description' => 'My second house',
-      'picture' => 'url',
-      'price' => '130',
-      'user_id' => 1}])
+                                                              { 'id' => '1',
+                                                                'title' => 'House',
+                                                                'description' => 'My house',
+                                                                'picture' => 'url',
+                                                                'price' => '120',
+                                                                'user_id' => 1 },
+
+                                                              { 'id' => '2',
+                                                                'title' => 'Second House',
+                                                                'description' => 'My second house',
+                                                                'picture' => 'url',
+                                                                'price' => '130',
+                                                                'user_id' => 1 }
+                                                            ])
 
     res = Space.all
 

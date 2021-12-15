@@ -5,11 +5,11 @@ require 'user'
 describe User do
   before do
     allow(DatabaseConnection).to receive(:query).and_return([{
-      'id' => '1',
-      'name' => 'Tomas',
-      'email' => 'tomas_fake_email@gmail.com',
-      'password' => BCrypt::Password.create('password123')
-    }])
+                                                              'id' => '1',
+                                                              'name' => 'Tomas',
+                                                              'email' => 'tomas_fake_email@gmail.com',
+                                                              'password' => BCrypt::Password.create('password123')
+                                                            }])
     @user = User.create(name: 'Tomas', email: 'tomas_fake_email@gmail.com', password: 'password123')
   end
 
@@ -27,20 +27,20 @@ describe User do
   end
 
   it 'can check if an email already exists' do
-    allow(DatabaseConnection).to receive(:query).and_return([{'exists' => 't'}])
+    allow(DatabaseConnection).to receive(:query).and_return([{ 'exists' => 't' }])
     expect(User.exists?('tomas_fake_email@gmail.com')).to be true
 
-    allow(DatabaseConnection).to receive(:query).and_return([{'exists' => 'f'}])
+    allow(DatabaseConnection).to receive(:query).and_return([{ 'exists' => 'f' }])
     expect(User.exists?('donaldtrump@gmail.com')).to be false
   end
 
   it 'should be able to authenticate log in' do
-    allow(DatabaseConnection).to receive(:query).and_return([{'exists' => 't'}], [{
-      'id' => '1',
-      'name' => 'Tomas',
-      'email' => 'tomas_fake_email@gmail.com',
-      'password' => BCrypt::Password.create('password123')
-    }])
+    allow(DatabaseConnection).to receive(:query).and_return([{ 'exists' => 't' }], [{
+                                                              'id' => '1',
+                                                              'name' => 'Tomas',
+                                                              'email' => 'tomas_fake_email@gmail.com',
+                                                              'password' => BCrypt::Password.create('password123')
+                                                            }])
 
     logged_in_user = User.authenticate('tomas_fake_email@gmail.com', 'password123')
     expect(logged_in_user.id).to eq @user.id
@@ -51,7 +51,7 @@ describe User do
   it 'cannot log in with the wrong password' do
     user = User.create(name: 'Tomas', email: 'tomas_fake_email@gmail.com', password: 'password123')
 
-    allow(DatabaseConnection).to receive(:query).and_return([{'exists' => 'f'}], )
+    allow(DatabaseConnection).to receive(:query).and_return([{ 'exists' => 'f' }])
     logged_in_user = User.authenticate('tomas_fake_email@gmail.com', 'fake')
     expect(logged_in_user).to be nil
   end
