@@ -40,5 +40,4 @@ describe 'Space' do
 
     expect(found_space.id).to eq space.id
   end
-
 end
