@@ -28,8 +28,7 @@ describe 'Space' do
 
   it 'returns a list of all spaces' do
     space1 = Space.create(title: 'House', description: 'My house', picture: 'url', price: 120, user_id: @user.id)
-    space2 = Space.create(title: 'Second House', description: 'My second house', picture: 'url', price: 130,
-                          user_id: @user.id)
+    space2 = Space.create(title: 'Second House', description: 'My second house', picture: 'url', price: 130, user_id: @user.id)
     
     allow(DatabaseConnection).to receive(:query).and_return([
       {'id' => '1',
@@ -50,7 +49,9 @@ describe 'Space' do
 
     expect(res.length).to eq 2
     expect(res[0]).to be_a Space
+    expect(res[0].title).to eq 'House'
     expect(res[1]).to be_a Space
+    expect(res[1].title).to eq 'Second House'
   end
 
   it 'find a space by id' do
