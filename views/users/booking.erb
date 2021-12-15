@@ -1,16 +1,34 @@
-<h1>Request made</h1>
-<a href="/spaces">All spaces</a>
+<h1>Made requests</h1>
+<% @made_requests.each do |booking| %>
+  <p><%= Space.find(id: booking.space_id).title %></p>
+  <p>Posted by <%= User.find(Space.find(id: booking.space_id).user_id).name %></p>
+  <% if booking.confirmed == nil %> 
+    <p>Not confirmed</p>
+  <% elsif booking.confirmed == 't' %>
+    <p>Confirmed</p>
+  <% elsif booking.confirmed == 'f' %>
+    <p>Rejected</p>
+  <% end %>
+  <p><%=booking.date %></p>
+<% end %>
 
 <h1>Received requests</h1>
 <% @received_requests.each do |booking| %>
   <p><%= Space.find(id: booking.space_id).title %></p>
   <% if booking.confirmed == nil %> 
     <p>Not confirmed</p>
-  <% elsif booking.confirmed == true %>
+  <% elsif booking.confirmed == 't' %>
     <p>Confirmed</p>
-  <% elsif booking.confirmed == false %>
+  <% elsif booking.confirmed == 'f' %>
     <p>Rejected</p>
   <% end %>
   <p><%=booking.date %></p>
   <p>Requested by <%=User.find(booking.user_id).name%></p>
+  <form action="/bookings/<%= booking.id %>/confirm" method="post">
+    <input type="submit" value="Confirm">
+  </form>
+
+  <form action="/bookings/<%= booking.id %>/reject" method="post">
+    <input type="submit" value="Reject">
+  </form>
 <% end %>

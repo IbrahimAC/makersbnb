@@ -48,4 +48,9 @@ class Booking
     bookings
   end
 
+  def self.made_requests(user_id)
+    bookings = DatabaseConnection.query("SELECT * FROM bookings WHERE user_id = $1", [user_id])
+    bookings.map { |booking| Booking.new(booking['id'], booking['user_id'], booking['space_id'], booking['date'], booking['confirmed']) }
+  end
+
 end
