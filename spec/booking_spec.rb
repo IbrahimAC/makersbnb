@@ -73,4 +73,18 @@ describe Booking do
     expect(Booking.received_requests(user.id)[1].date). to eq '2022-01-10'
   end
 
+  it 'shows all the request made by user' do
+    owner = User.create(name: 'Tomas', email: 'tomas_fake_email@gmail.com', password: 'password123')
+    space = Space.create(title: 'House', description: 'My house', picture: 'url', price: 120, user_id: owner.id)
+    user = User.create(name: 'Kim', email: 'Kim_fake_email@gmail.com', password: 'password123')
+    booking = Booking.request(user.id, space.id, '2022-01-08')
+    booking_2 = Booking.request(user.id, space.id, '2022-01-10')
+    expect(Booking.made_requests(user.id)[0].id). to eq booking.id
+    expect(Booking.made_requests(user.id)[0].user_id). to eq booking.user_id
+    expect(Booking.made_requests(user.id)[0].space_id). to eq booking.space_id
+    expect(Booking.made_requests(user.id)[0].date). to eq '2022-01-08'
+    expect(Booking.made_requests(user.id)[0].confirmed). to be nil
+    expect(Booking.made_requests(user.id)[1].date). to eq '2022-01-10'
+  end
+
 end
