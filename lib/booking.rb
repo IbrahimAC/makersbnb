@@ -13,6 +13,7 @@ class Booking
 
   def self.request(user_id, space_id, date)
     return nil if Booking.already_booked?(space_id, date)
+
     result = DatabaseConnection.query(
       "INSERT INTO bookings (user_id, space_id, date) VALUES($1, $2, $3)
       RETURNING id, user_id, space_id, date, confirmed;",
@@ -30,14 +31,14 @@ class Booking
   end
 
   def self.already_booked?(space_id, date)
-    result = DatabaseConnection.query("select exists(select 1 from bookings where space_id=$1 AND date=$2 AND confirmed='t');", [space_id, date])
+    result = DatabaseConnection.query(
+      "select exists(select 1 from bookings where space_id=$1 AND date=$2 AND confirmed='t');", [space_id, date]
+    )
     result[0]['exists'] == 't'
   end
 
   def self.unavailable_dates(space_id)
     result = DatabaseConnection.query("SELECT * FROM bookings where space_id=$1 AND confirmed='t';", [space_id])
-    result.map {|booking| booking['date']}
+    result.map { |booking| booking['date'] }
   end
-
 end
-

@@ -8,7 +8,6 @@ describe Booking do
     @space = Space.create(title: 'House', description: 'My house', picture: 'url', price: 120, user_id: @user.id)
   end
 
-
   it 'should be able to request a new booking' do
     booking = Booking.request(@user.id, @space.id, '2022-01-08')
     expect(booking).to be_kind_of Booking
@@ -54,7 +53,6 @@ describe Booking do
     booking_3 = Booking.request(@user.id, @space.id, '2022-01-15')
     Booking.confirm(booking_3.id, true)
 
-    expect(Booking.unavailable_dates(@space.id)).to match_array (['2022-01-08', '2022-01-11', '2022-01-15'])
+    expect(Booking.unavailable_dates(@space.id)).to match_array(%w[2022-01-08 2022-01-11 2022-01-15])
   end
-
 end
