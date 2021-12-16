@@ -17,7 +17,7 @@ describe 'Space' do
   end
 
   it 'creates a instance of space class' do
-    res = Space.create(title: 'House', description: 'My house', picture: 'url', price: 120, user_id: @user.id)
+    res = Space.create(title: 'House', description: 'My house', picture: 'url', price: 120, user_id: @user.id, availability_from: "2022-01-01", availability_until: "2022-01-31")
 
     expect(res).to be_a Space
     expect(res.title).to eq 'House'
@@ -28,9 +28,9 @@ describe 'Space' do
   end
 
   it 'returns a list of all spaces' do
-    space1 = Space.create(title: 'House', description: 'My house', picture: 'url', price: 120, user_id: @user.id)
+    space1 = Space.create(title: 'House', description: 'My house', picture: 'url', price: 120, user_id: @user.id, availability_from: "2022-01-01", availability_until: "2022-01-31")
     space2 = Space.create(title: 'Second House', description: 'My second house', picture: 'url', price: 130,
-                          user_id: @user.id)
+                          user_id: @user.id, availability_from: "2022-01-01", availability_until: "2022-01-31")
 
     allow(DatabaseConnection).to receive(:query).and_return([
                                                               { 'id' => '1',
@@ -58,9 +58,24 @@ describe 'Space' do
   end
 
   it 'find a space by id' do
-    space = Space.create(title: 'House', description: 'My house', picture: 'url', price: 120, user_id: @user.id)
+    space = Space.create(title: 'House', description: 'My house', picture: 'url', price: 120, user_id: @user.id, availability_from: "2022-01-01", availability_until: "2022-01-31")
     found_space = Space.find(id: space.id)
 
     expect(found_space.id).to eq space.id
+  end
+
+  it 'should be able to update a booking' do
+    allow(DatabaseConnection).to receive(:query).and_call_original
+    DatabaseConnection.query("ALTER SEQUENCE spaces_id_seq RESTART WITH 1;")
+    @user = User.create(name: 'Tomas', email: 'tomas_fake_email@gmail.com', password: 'password123')
+    space = Space.create(title: 'House', description: 'My house', picture: 'url', price: 120, user_id: @user.id, availability_from: "2022-01-01", availability_until: "2022-01-31")
+    updated_space = Space.update(id: '1', title: 'Updated house', description: 'Updated description', picture: 'new_url', price: 150, availability_from: '2022-02-01', availability_until: '2022-02-21')
+    expect(updated_space.title).to eq 'Updated house'
+    expect(updated_space.description).to eq 'Updated description'
+    expect(updated_space.picture).to eq 'new_url'
+    expect(updated_space.price).to eq '150'
+    expect(updated_space.user_id).to eq @user.id
+    expect(updated_space.availability_from).to eq '2022-02-01'
+    expect(updated_space.availability_until).to eq '2022-02-21'
   end
 end

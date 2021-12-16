@@ -2,3 +2,4 @@
 
 require './app'
 run AirBnb
+Rack::MethodOverride
