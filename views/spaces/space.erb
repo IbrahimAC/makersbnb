@@ -1,6 +1,7 @@
 <h1><%= @space.title %></h1>
 <p><%= @space.description %></p>
 <p>£<%= @space.price %></p>
+<p>Available from: <%= @space.availability_from %> to <%= @space.availability_until %>
 <p>Posted by <%= @space_owner.name %></p>
 
 <button>
