@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'database_connection'
+require 'date'
 
 class Space
   attr_reader :id, :title, :description, :picture, :price, :user_id, :availability_from, :availability_until
@@ -62,4 +63,12 @@ class Space
       availability_until: res[0]['availability_until']
     )
   end
+
+  def self.list_available_dates(space:)
+    result = []
+    (Date.parse("#{space.availability_from}")..Date.parse("#{space.availability_until}")).uniq { |d| result << d.strftime('%Y-%m-%d') }
+    result
+  end
 end
+
+
