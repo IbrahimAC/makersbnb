@@ -65,6 +65,8 @@ class AirBnb < Sinatra::Base
   end
 
   get '/user/bookings' do
+    @made_requests = Booking.made_requests(session[:id])
+    @received_requests = Booking.received_requests(session[:id])
     erb :'users/booking'
   end
 
@@ -104,6 +106,16 @@ class AirBnb < Sinatra::Base
 
   post '/bookings/:id' do
     Booking.request(session[:id], params[:id], params[:date])
+    redirect 'user/bookings'
+  end
+
+  post '/bookings/:id/confirm' do
+    Booking.confirm(params[:id], true)
+    redirect 'user/bookings'
+  end
+
+  post '/bookings/:id/reject' do
+    Booking.confirm(params[:id], false)
     redirect 'user/bookings'
   end
 
