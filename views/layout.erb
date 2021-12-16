@@ -15,10 +15,11 @@
   <% if @user %>
     Logged in as <%= @user.name %>
     <form action="/user/logout" method="post">
-      <input type="submit" value="Log out">
+      <button>Log out</button>
     </form>
 
     <button> <a href="/spaces/new"> Create a listing </a> </button>
+    <button> <a href="/user/bookings"> My requests </a> </button>
   
   <% else %>
     <form action="/user/new" method="get">
