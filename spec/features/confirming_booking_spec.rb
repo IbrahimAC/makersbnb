@@ -1,7 +1,5 @@
-# frozen_string_literal: true
-
-feature 'requesting booking' do
-  scenario 'user should be able to request booking' do
+feature 'confirming booking' do
+  scenario 'owner of space can confirm a booking request' do
     sign_up
     visit '/spaces/new'
     fill_in 'title', with: 'Test house'
@@ -22,7 +20,17 @@ feature 'requesting booking' do
     click_link('Request booking')
     select('2022-01-05', from: 'date')
     click_on('Make request')
-    expect(page).to have_content 'Test house'
-    expect(page).to have_content '2022-01-05'
+
+    click_button 'Log out'
+    click_button 'Log in'
+    fill_in('email', with: 'tomas_fake_email@gmail.com')
+    fill_in('password', with: 'password123')
+    click_button('Submit')
+
+    visit 'user/bookings'
+    click_button 'Confirm'
+
+    expect(page).to have_content "Confirmed"
+    expect(page).to have_no_content "Not confirmed"
   end
 end
