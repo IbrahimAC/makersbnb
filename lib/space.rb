@@ -69,6 +69,13 @@ class Space
     (Date.parse("#{space.availability_from}")..Date.parse("#{space.availability_until}")).uniq { |d| result << d.strftime('%Y-%m-%d') }
     result
   end
+
+  def self.delete(id:)
+    #Booking.delete could be added below! ----
+    DatabaseConnection.query('DELETE FROM bookings WHERE space_id = $1;', [id])
+    # ------- 
+    DatabaseConnection.query('DELETE FROM spaces WHERE id = $1;', [id])
+  end
 end
 
 
