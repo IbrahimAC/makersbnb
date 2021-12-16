@@ -3,3 +3,4 @@ coverage
 
 # Local cache of Rubocop remote config
 .rubocop-*
+data.env

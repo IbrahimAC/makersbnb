@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
+
 ENV['ENVIRONMENT'] = 'test'
 # frozen_string_literal: true
+require 'webmock/rspec'
 require_relative './database_helper'
 require_relative '../database_connection_setup'
 require 'simplecov'
@@ -12,6 +14,7 @@ require 'capybara'
 require 'capybara/rspec'
 require_relative './web_helper'
 Capybara.app = AirBnb
+WebMock.disable_net_connect!(allow_localhost: true)
 
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
   [
