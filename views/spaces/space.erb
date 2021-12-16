@@ -8,7 +8,9 @@
   <a href="/bookings/<%= @space.id %>/new">Request booking</a>
 </button>
 
-<form action="/spaces/delete/<%= @space.id%>" method="post">
-  <input id="hidden" type="hidden" name="_method" value="delete">
-  <input type="submit" value="Delete">
-</form>
+<% if @user %>
+  <form action="/spaces/delete/<%= @space.id%>" method="post">
+    <input id="hidden" type="hidden" name="_method" value="delete">
+    <input type="submit" value="Delete">
+  </form>
+<% end %>
