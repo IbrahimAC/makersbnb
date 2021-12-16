@@ -14,7 +14,7 @@ class AirBnb < Sinatra::Base
     register Sinatra::Reloader
   end
 
-  enable :sessions
+  enable :sessions, :method_override
   register Sinatra::Flash
 
   before do
@@ -97,7 +97,7 @@ class AirBnb < Sinatra::Base
     erb :'/spaces/update'
   end
 
-  post '/spaces/:id/update' do
+  patch '/spaces/:id/update' do
     Space.update(id: params[:id], title: params[:title],
     description: params[:description], picture: params[:picture], price: params[:price],
     availability_from: params[:availability_from], availability_until: params[:availability_until])
