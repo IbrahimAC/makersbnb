@@ -1,1 +1,61 @@
-<h1>Welcome to MakersBnB</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MakersAirBnb</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <link rel="stylesheet" href="landing.css">
+</head>
+<body>
+
+<section class="hero is-link is-fullheight">
+
+<div class="hero-head">
+    <nav class="navbar">
+      <div class="container">
+        <div class="navbar-brand">
+          <a href="/spaces"class="navbar-item is-size-3 has-text-weight-bold">
+            MakersAirBnB
+          </a>
+        </div>
+        <div id="navbarMenuHeroA" class="navbar-menu">
+          <div class="navbar-end has-text-weight-semibold">
+          <%if !@user %>
+            <a href="/user/new" class="navbar-item">
+              Sign up
+            </a>
+            <a href="/user/login" class="navbar-item">
+              Log in
+            </a>
+            <% else %>
+            <span class="navbar-item">
+              <form action="/user/logout" method="post">
+                <button id="signout">Log out</button>
+              </form>
+            </span>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <p class="title">
+        Welcome to MakersAirBnb
+      </p>
+      <p class="subtitle">
+        Of all the books in the world, the best stories are found between the pages of a passport. Go explore a wide range of awesome places to stay
+      </p>
+      <a href="/spaces" class="button has-text-weight-bold">Explore</a>
+    </div>
+  </div>
+
+</section>
+
+
+</body>
+</html>
