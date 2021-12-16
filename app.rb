@@ -10,11 +10,12 @@ require 'sinatra/flash'
 
 # AirBnB class
 class AirBnb < Sinatra::Base
+
   configure :development do
     register Sinatra::Reloader
   end
 
-  enable :sessions
+  enable :sessions, :method_override
   register Sinatra::Flash
 
   before do
@@ -91,6 +92,11 @@ class AirBnb < Sinatra::Base
     erb :'/spaces/space'
   end
 
+  delete '/spaces/delete/:id' do
+    Space.delete(id: params[:id])
+    redirect '/spaces'
+  end
+
   get '/user/signup/confirmation' do
     erb :'users/confirmation'
   end
@@ -116,6 +122,7 @@ class AirBnb < Sinatra::Base
     Booking.confirm(params[:id], false)
     redirect 'user/bookings'
   end
+
 
   run! if app_file == $PROGRAM_NAME
 end

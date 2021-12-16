@@ -75,6 +75,15 @@ describe 'Space' do
     expect(result.length).to eq 3
     expect(result).to be_a Array
     expect(result).to eq(['2021-12-16', '2021-12-17', '2021-12-18'])
+  end
 
+  it "deletes a space" do
+    space = Space.create(title: 'House', description: 'My house', picture: 'url', price: 120, user_id: @user.id, 
+      availability_from: '2021-12-16', availability_until: '2021-12-18')
+    expect(Space.all.length).to eq 1
+  
+    allow(DatabaseConnection).to receive(:query).and_call_original
+    Space.delete(id: space.id)
+    expect(Space.all.length).to eq 0
   end
 end
