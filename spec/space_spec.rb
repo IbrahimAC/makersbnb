@@ -11,7 +11,9 @@ describe 'Space' do
                                                               'description' => 'My house',
                                                               'picture' => 'url',
                                                               'price' => '120',
-                                                              'user_id' => 1
+                                                              'user_id' => 1,
+                                                              'availability_from' => '2021-12-16',
+                                                              'availability_until' => '2021-12-18'
                                                             }])
     @user = double('User', id: 1)
   end
@@ -62,5 +64,17 @@ describe 'Space' do
     found_space = Space.find(id: space.id)
 
     expect(found_space.id).to eq space.id
+  end
+
+  it "returns an array of available dates" do
+    space = Space.create(title: 'House', description: 'My house', picture: 'url', price: 120, user_id: @user.id, 
+      availability_from: '2021-12-16', availability_until: '2021-12-18')
+    
+    result = Space.list_available_dates(space: space)
+    p result
+    expect(result.length).to eq 3
+    expect(result).to be_a Array
+    expect(result).to eq(['2021-12-16', '2021-12-17', '2021-12-18'])
+
   end
 end
