@@ -1,5 +1,7 @@
 <% @spaces.each do |space| %>
+  <p>
   <a href="/spaces/<%=space.id%>"> <%= space.title %> </a>
   <%= space.price %>
   <%= space.picture %>
+  </p>
 <% end %>
