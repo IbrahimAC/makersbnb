@@ -8,9 +8,9 @@ feature 'reject booking' do
     fill_in 'picture', with: 'url'
     click_button 'Create space'
     visit('/')
-    click_button 'Log out'
+    click_on 'Log out'
     visit('/')
-    click_button('Sign up')
+    click_on('Sign up')
     fill_in('name', with: 'Kim')
     fill_in('email', with: 'kim_fake_email@gmail.com')
     fill_in('password', with: 'password123')
@@ -21,8 +21,8 @@ feature 'reject booking' do
     select('2022-01-05', from: 'date')
     click_on('Make request')
 
-    click_button 'Log out'
-    click_button 'Log in'
+    click_on 'Log out'
+    click_on 'Log in'
     fill_in('email', with: 'tomas_fake_email@gmail.com')
     fill_in('password', with: 'password123')
     click_button('Submit')

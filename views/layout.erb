@@ -1,6 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <link href="<%= url('/navbar_style.css') %>" rel="stylesheet" type="text/css" /> 
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MakersAirBnb</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <link rel="stylesheet" href="navbar_style.css">
 </head>
+<body>
+  
+  <nav class="navbar is-light has-shadow" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="/spaces">
+      <h1 class="title is-size-3 has-text-weight-bold">MakersAirBnB</h1>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start has-text-weight-semibold">
+    <% if @user %>
+      <a class="navbar-item" href="/spaces/new">
+        Add new space
+      </a>
+      <a class="navbar-item" href="/user/bookings">
+        Logged in as <%= @user.name %>
+      </a>
+      <% end %>
+    </div>
+  </div>
+
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="buttons">
+        <% if !@user %>
+          <a class="button is-link" href="/user/new">
+            <strong>Sign up</strong>
+          </a>
+          <a class="button is-light" href="/user/login">
+            Log in
+          </a>
+        <% else %>
+          <form action="/user/logout" method="post">
+              <button class="button is-light">Log out</button>
+          </form>
+        <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
 
 <% flash.keys.each do |type| %>
   <div data-alert class="flash <%= type %> alert-box radius">
@@ -9,30 +58,7 @@
   </div>
 <% end %>
 
-<div class="navbar">
-  <p><a href="/spaces" style="display">MakersBnB</a>
+<%= yield %>
 
-  <% if @user %>
-    Logged in as <%= @user.name %>
-    <form action="/user/logout" method="post">
-      <button>Log out</button>
-    </form>
-
-    <button> <a href="/spaces/new"> Create a listing </a> </button>
-    <button> <a href="/user/bookings"> My requests </a> </button>
-  
-  <% else %>
-    <form action="/user/new" method="get">
-      <input type="submit" value="Sign up">
-    </form>
-    <form action="/user/login" method="get">
-      <input type="submit" value="Log in">
-    </form>
-  </p>
-
-<% end %>
-
-</div>
-<body>
-  <%= yield %>
 </body>
+</html>
