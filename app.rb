@@ -94,6 +94,7 @@ class AirBnb < Sinatra::Base
 
   delete '/spaces/delete/:id' do
     Space.delete(id: params[:id])
+    flash[:notice] = "Space deleted"
     redirect '/spaces'
   end
 
