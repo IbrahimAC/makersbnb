@@ -11,7 +11,7 @@ feature 'update booking' do
     fill_in 'picture', with: 'new_url'
     fill_in "availability_from", with: "2022/02/01"
     fill_in "availability_until", with: "2022/02/20"
-    click_link('Update')
+    click_button('Update')
     expect(page).to have_content 'Updated house'
     expect(page).to have_no_content 'Test house'
     expect(page).to have_content 'updated house description'

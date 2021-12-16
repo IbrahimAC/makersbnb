@@ -7,7 +7,7 @@
 <button>
   <a href="/bookings/<%= @space.id %>/new">Request booking</a>
 </button>
-<% if @user.id == @owner.id %>
+<% if @user.id == @space_owner.id %>
 <button>
   <a href="/spaces/<%= @space.id %>/update">Update booking</a>
 </button>

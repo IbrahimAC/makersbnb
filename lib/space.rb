@@ -62,4 +62,23 @@ class Space
       availability_until: res[0]['availability_until']
     )
   end
+
+  def self.update(id:, title:, description:, picture:, price:, availability_from:, availability_until:)
+    res = DatabaseConnection.query("UPDATE spaces
+          SET title=$2, description=$3, picture=$4, price=$5, availability_from=$6, availability_until=$7
+          WHERE id = $1
+          RETURNING id, title, description, picture, price, user_id, availability_from, availability_until;",
+          [id, title, description, picture, price, availability_from, availability_until])
+    Space.new(
+      id: res[0]['id'],
+      title: res[0]['title'],
+      description: res[0]['description'],
+      picture: res[0]['picture'],
+      price: res[0]['price'],
+      user_id: res[0]['user_id'],
+      availability_from: res[0]['availability_from'],
+      availability_until: res[0]['availability_until']
+    )
+  end
+
 end
