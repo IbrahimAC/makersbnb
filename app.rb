@@ -98,9 +98,7 @@ class AirBnb < Sinatra::Base
   get '/bookings/:id/new' do
     @space_id = params[:id]
     @available_dates = Space.list_available_dates(space: Space.find(id: @space_id))
-    p @available_dates
-    # @unavailable_dates = Booking.unavailable_dates(params[:id])
-    @unavailable_dates = ['2022-01-02']
+    @unavailable_dates = Booking.unavailable_dates(params[:id])
     erb :'bookings/new'
   end
 
