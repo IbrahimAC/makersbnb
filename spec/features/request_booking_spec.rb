@@ -5,9 +5,9 @@ feature 'requesting booking' do
     sign_up
     post_listing
     visit('/')
-    click_button 'Log out'
+    click_on 'Log out'
     visit('/')
-    click_button('Sign up')
+    click_on('Sign up')
     fill_in('name', with: 'Kim')
     fill_in('email', with: 'kim_fake_email@gmail.com')
     fill_in('password', with: 'password123')
