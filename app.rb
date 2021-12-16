@@ -14,7 +14,7 @@ class AirBnb < Sinatra::Base
     register Sinatra::Reloader
   end
 
-  enable :sessions
+  enable :sessions, :method_override
   register Sinatra::Flash
 
   before do
@@ -80,8 +80,7 @@ class AirBnb < Sinatra::Base
   end
 
   post '/spaces' do
-    p availability_from: session[:availability_from]
-    p space = Space.create(title: params[:title], description: params[:description], picture: params[:picture],
+    space = Space.create(title: params[:title], description: params[:description], picture: params[:picture],
                            price: params[:price], user_id: session[:id], availability_from: params[:availability_from], availability_until: params[:availability_until])
     redirect "/spaces/#{space.id}"
   end
@@ -92,6 +91,19 @@ class AirBnb < Sinatra::Base
     erb :'/spaces/space'
   end
 
+  get '/spaces/:id/update' do
+    @space = Space.find(id: params[:id])
+    @space_owner = User.find(@space.user_id)
+    erb :'/spaces/update'
+  end
+
+  patch '/spaces/:id/update' do
+    Space.update(id: params[:id], title: params[:title],
+    description: params[:description], picture: params[:picture], price: params[:price],
+    availability_from: params[:availability_from], availability_until: params[:availability_until])
+    redirect "/spaces/#{params[:id]}"
+  end
+
   get '/user/signup/confirmation' do
     erb :'users/confirmation'
   end
@@ -99,7 +111,7 @@ class AirBnb < Sinatra::Base
   get '/bookings/:id/new' do
     @space_id = params[:id]
     @available_dates = %w[2022-01-01 2022-01-02 2022-01-03 2022-01-04 2022-01-05 2022-01-06]
-    # @unavailable_dates = Booking.unavailable_dates(params[:id])
+    #@unavailable_dates = Booking.unavailable_dates(params[:id])
     @unavailable_dates = ['2022-01-02']
     erb :'bookings/new'
   end
