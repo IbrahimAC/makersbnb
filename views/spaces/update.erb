@@ -1,0 +1,19 @@
+<form action="/spaces/<%= @space.id %>/update" method="post">
+  <label for="title">Title:</label>
+  <input type="text" name="title" id="title" placeholder="title" required>
+  <label for="description">Description:</label>
+  <input type="text" name="description" id="description" placeholder="description" required>
+  <label for="picture">Picture:</label>
+  <input type="text" name="picture" id="picture" placeholder="picture">
+  <label for="price">Price:</label>
+  <input type="number" name="price" id="price" placeholder="price" required>
+  <label for="date">
+    Available from:</label>
+    <input type="date" name="availability_from" min="2022-01-01" max="2022-12-31" required>
+    <span class="validity"></span>
+    <label for="date_to">to</label>
+    <input type="date" name="availability_until" min="2022-01-01" max="2022-12-31" required>
+    <span class="validity"></span>
+  <input id="hidden" type="hidden" name="_method" value="patch">
+  <input type="submit" value="Update">
+</form>
