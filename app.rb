@@ -5,6 +5,7 @@ require 'sinatra/reloader'
 require './lib/user'
 require './lib/space'
 require './lib/booking'
+require './lib/email'
 require './database_connection_setup'
 require 'sinatra/flash'
 
@@ -37,6 +38,8 @@ class AirBnb < Sinatra::Base
       session[:id] = nil
     else
       session[:id] = user.id
+      p user.email
+      Email.send_email(user_email: user.email,event: :sign_up)
     end
     redirect 'user/signup/confirmation'
   end
@@ -83,6 +86,7 @@ class AirBnb < Sinatra::Base
   post '/spaces' do
     space = Space.create(title: params[:title], description: params[:description], picture: params[:picture],
                            price: params[:price], user_id: session[:id], availability_from: params[:availability_from], availability_until: params[:availability_until])
+    Email.send_email(user_email: @user.email, event: :create_listing)
     redirect "/spaces/#{space.id}"
   end
 
@@ -129,12 +133,16 @@ class AirBnb < Sinatra::Base
   end
 
   post '/bookings/:id/confirm' do
-    Booking.confirm(params[:id], true)
+    booking = Booking.confirm(params[:id], true)
+    user = User.find(booking.user_id)
+    Email.send_email(user_email: user.email, event: :booking_confirmed)
     redirect 'user/bookings'
   end
 
   post '/bookings/:id/reject' do
-    Booking.confirm(params[:id], false)
+    booking = Booking.confirm(params[:id], false)
+    user = User.find(booking.user_id)
+    Email.send_email(user_email: user.email, event: :booking_rejected)
     redirect 'user/bookings'
   end
 
