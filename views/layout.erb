@@ -50,14 +50,22 @@
   </div>
 </nav>
 
-<% flash.keys.each do |type| %>
-  <div data-alert class="flash <%= type %> alert-box radius">
-    <%= flash[type] %>
-    <a href="#" class="close">&times;</a>
+<div class="container is-fluid">
+  
+  <div class="columns is-centered">
+    <div class="column is-half mt-2">
+      <% flash.keys.each do |type| %>
+      <div class="notification is-<%= type %>">
+        <button class="delete" onclick="this.parentElement.style.display='none'"></button>
+        <%= flash[type] %>
+      </div>
+      <% end %>
+    </div>
   </div>
-<% end %>
+  
+  <%= yield %>
 
-<%= yield %>
+</div>
 
 </body>
 </html>
