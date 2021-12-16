@@ -7,8 +7,15 @@
 <button>
   <a href="/bookings/<%= @space.id %>/new">Request booking</a>
 </button>
-<% if @user.id == @space_owner.id %>
-<button>
-  <a href="/spaces/<%= @space.id %>/update">Update booking</a>
-</button>
+
+
+<% if @space_owner.id == @user.id %>
+  <form action="/spaces/delete/<%= @space.id%>" method="post">
+    <input id="hidden" type="hidden" name="_method" value="delete">
+    <input type="submit" value="Delete">
+  </form>
+
+  <button>
+    <a href="/spaces/<%= @space.id %>/update">Update booking</a>
+  </button>
 <% end %>

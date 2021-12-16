@@ -10,6 +10,7 @@ require 'sinatra/flash'
 
 # AirBnB class
 class AirBnb < Sinatra::Base
+
   configure :development do
     register Sinatra::Reloader
   end
@@ -91,6 +92,13 @@ class AirBnb < Sinatra::Base
     erb :'/spaces/space'
   end
 
+
+  delete '/spaces/delete/:id' do
+    Space.delete(id: params[:id])
+    flash[:notice] = "Space deleted"
+    redirect '/spaces'
+  end
+
   get '/spaces/:id/update' do
     @space = Space.find(id: params[:id])
     @space_owner = User.find(@space.user_id)
@@ -110,9 +118,8 @@ class AirBnb < Sinatra::Base
 
   get '/bookings/:id/new' do
     @space_id = params[:id]
-    @available_dates = %w[2022-01-01 2022-01-02 2022-01-03 2022-01-04 2022-01-05 2022-01-06]
-    #@unavailable_dates = Booking.unavailable_dates(params[:id])
-    @unavailable_dates = ['2022-01-02']
+    @available_dates = Space.list_available_dates(space: Space.find(id: @space_id))
+    @unavailable_dates = Booking.unavailable_dates(params[:id])
     erb :'bookings/new'
   end
 
@@ -130,6 +137,7 @@ class AirBnb < Sinatra::Base
     Booking.confirm(params[:id], false)
     redirect 'user/bookings'
   end
+
 
   run! if app_file == $PROGRAM_NAME
 end
