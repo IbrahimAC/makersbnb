@@ -5,8 +5,10 @@ require 'sinatra/reloader'
 require './lib/user'
 require './lib/space'
 require './lib/booking'
+require './lib/email'
 require './database_connection_setup'
 require 'sinatra/flash'
+
 
 # AirBnB class
 class AirBnb < Sinatra::Base
@@ -37,6 +39,7 @@ class AirBnb < Sinatra::Base
       session[:id] = nil
     else
       session[:id] = user.id
+      Email.send_email(user_email: user.email, event: :signup)
     end
     redirect 'user/signup/confirmation'
   end

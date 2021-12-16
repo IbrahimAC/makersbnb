@@ -7,11 +7,11 @@ describe Email do
   it "It sends an email" do
     stub_request(:post, "https://api.sendgrid.com/v3/mail/send").
     with(
-      body: "{\"from\":{\"email\":\"makers@example.com\"},\"subject\":\"MakersBnB\",\"personalizations\":[{\"to\":[{\"email\":\"test@example.com\"}]}],\"content\":[{\"type\":\"text/plain\",\"value\":\"You're account has been created\"}]}",
+      body: "{\"from\":{\"email\":\"makers@example.com\"},\"subject\":\"MakersBnB\",\"personalizations\":[{\"to\":[{\"email\":\"test@example.com\"}]}],\"content\":[{\"type\":\"text/plain\",\"value\":\"Your account has been created\"}]}",
       headers: {
      'Accept'=>'application/json',
      'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-     'Authorization'=>'Bearer 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',
+     'Authorization'=>"Bearer #{ENV['SENDGRID_API']}",
      'Content-Type'=>'application/json',
      'User-Agent'=>'sendgrid/6.6.0;ruby'
       }).
@@ -22,7 +22,7 @@ describe Email do
   context "returns email content" do
     it "returns a signup message" do
       res = Email.content(event: :sign_up)
-      expect(res).to eq "You're account has been created"
+      expect(res).to eq "Your account has been created"
     end
 
     it "returns a signup message" do

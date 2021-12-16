@@ -22,7 +22,7 @@ class Email
 
   def self.content(event:)
     events = {
-      sign_up: "You're account has been created",
+      sign_up: "Your account has been created",
       create_listing: "You've listed a space",
       booking_confirmed: "Your booking request has been confirmed",
       booking_rejected: "Your booking request has been rejected",
