@@ -17,7 +17,7 @@ describe 'Space' do
   end
 
   it 'creates a instance of space class' do
-    res = Space.create(title: 'House', description: 'My house', picture: 'url', price: 120, user_id: @user.id)
+    res = Space.create(title: 'House', description: 'My house', picture: 'url', price: 120, user_id: @user.id, availability_from: "2022-01-01", availability_until: "2022-01-31")
 
     expect(res).to be_a Space
     expect(res.title).to eq 'House'
@@ -28,9 +28,9 @@ describe 'Space' do
   end
 
   it 'returns a list of all spaces' do
-    space1 = Space.create(title: 'House', description: 'My house', picture: 'url', price: 120, user_id: @user.id)
+    space1 = Space.create(title: 'House', description: 'My house', picture: 'url', price: 120, user_id: @user.id, availability_from: "2022-01-01", availability_until: "2022-01-31")
     space2 = Space.create(title: 'Second House', description: 'My second house', picture: 'url', price: 130,
-                          user_id: @user.id)
+                          user_id: @user.id, availability_from: "2022-01-01", availability_until: "2022-01-31")
 
     allow(DatabaseConnection).to receive(:query).and_return([
                                                               { 'id' => '1',
@@ -58,7 +58,7 @@ describe 'Space' do
   end
 
   it 'find a space by id' do
-    space = Space.create(title: 'House', description: 'My house', picture: 'url', price: 120, user_id: @user.id)
+    space = Space.create(title: 'House', description: 'My house', picture: 'url', price: 120, user_id: @user.id, availability_from: "2022-01-01", availability_until: "2022-01-31")
     found_space = Space.find(id: space.id)
 
     expect(found_space.id).to eq space.id
