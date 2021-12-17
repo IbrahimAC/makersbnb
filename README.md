@@ -37,15 +37,6 @@ rackup
 visit 'localhost:9292'
 ```
 
-# Database configuration
-* CREATE DATABASE makersbnb;
-* \c makersbnb
-* CREATE TABLE users (id SERIAL PRIMARY KEY, name VARCHAR(60), email VARCHAR(60), password VARCHAR);
-* CREATE DATABASE makersbnb_test;
-* \c makersbnb_test
-* CREATE TABLE users (id SERIAL PRIMARY KEY, name VARCHAR(60), email VARCHAR(60), password VARCHAR);
-
-
 ### Headline specifications
 
 - Any signed-up user can list a new space.
