@@ -1,25 +1,48 @@
-<h1><%= @space.title %></h1>
-<p><%= @space.description %></p>
-<p>£<%= @space.price %></p>
-<p>Available from: <%= @space.availability_from %> to <%= @space.availability_until %>
-<p>Posted by <%= @space_owner.name %></p>
 
-<% if !@user %>
-  <p>To book a space</p>
-  <a href="/user/new" class="button">
-    Sign up
-  </a>
-  <span>or</span>
-  <a href="/user/login" class="button">
-    Log in
-  </a>
-<% elsif @space_owner.id != @user.id %>
-  <button>
-    <a href="/bookings/<%= @space.id %>/new">Request booking</a>
-  </button>
-<% else %>
-  <p>You are the owner of this space</p>
-  <a href="/spaces" class="button">
-    All spaces
-  </a>
-<% end %>
+<div class="columns is-centered">
+  <div class="column is-half">
+   <div class="card-image">
+      <p class="title is-2 has-text-centered"> <%= @space.title %> </p>
+      <figure class="image is-4by3">
+        <img src="https://images.unsplash.com/photo-1601918774946-25832a4be0d6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1769&q=80" alt="Placeholder image">
+      </figure>
+    </div>
+  
+    <div class="media-content">
+      <br>
+      <p class="title is-4">Posted by <%= @space_owner.name %> </p>
+      <p class="is-size-5">Available from: <%= @space.availability_from %> to <%= @space.availability_until %>
+      <p class="has-text-weight-semibold is-size-5">£<%= @space.price %>/night</p>
+    </div>
+
+    <div class="content">
+      <br>
+      <p class="is-size-4"> <%= @space.description %> </p>
+    </div>
+
+    <% if !@user %>
+      <div class="has-text-centered">
+        <p class="has-text-weight-semibold is-size-6" >To book a space</p>
+        <a class="button is-link" href="/user/new" class="button">
+          Sign up
+        </a>
+        <a href="/user/login" class="button">
+          Log in
+        </a>
+      <% elsif @space_owner.id != @user.id %>
+        <button>
+          <a href="/bookings/<%= @space.id %>/new">Request booking</a>
+        </button>
+      <% else %>
+        <div class="has-text-centered">
+          <p class="has-text-weight-semibold is-size-6">You are the owner of this space</p>
+          <a href="/spaces" class="button">
+            All spaces
+          </a>
+        </div>
+      <% end %>
+    </div>
+
+
+  </div>
+</div>
