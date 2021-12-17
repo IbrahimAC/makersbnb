@@ -35,7 +35,7 @@ class Space
   end
 
   def self.all
-    res = DatabaseConnection.query('SELECT * FROM spaces;')
+    res = DatabaseConnection.query('SELECT * FROM spaces ORDER BY id ASC;')
     res.map do |space|
       Space.new(
         id: space['id'],
@@ -110,6 +110,10 @@ class Space
         availability_until: space['availability_until']
       )
     end
+  end
+
+  def self.is_valid?(availability_from:, availability_until:)
+    Date.parse(availability_from) < Date.parse(availability_until)
   end
 
 end

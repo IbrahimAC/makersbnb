@@ -1,11 +1,12 @@
 require 'email'
 require 'dotenv'
+require 'webmock'
 Dotenv.load('data.env')
 
 describe Email do
   
   it "It sends an email" do
-    stub_request(:post, "https://api.sendgrid.com/v3/mail/send").
+    WebMock.stub_request(:post, "https://api.sendgrid.com/v3/mail/send").
     with(
       body: "{\"from\":{\"email\":\"makers@example.com\"},\"subject\":\"MakersBnB\",\"personalizations\":[{\"to\":[{\"email\":\"test@example.com\"}]}],\"content\":[{\"type\":\"text/plain\",\"value\":\"Your account has been created\"}]}",
       headers: {

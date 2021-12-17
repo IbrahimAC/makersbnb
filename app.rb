@@ -90,15 +90,21 @@ class AirBnb < Sinatra::Base
   end
 
   post '/spaces' do
-    space = Space.create(title: params[:title], description: params[:description], picture: params[:picture],
-                           price: params[:price], user_id: session[:id], availability_from: params[:availability_from], availability_until: params[:availability_until])
-    Email.send_email(user_email: @user.email, event: :create_listing)
-    flash[:success] = "Space created"
-    redirect "/spaces/#{space.id}"
+    if Space.is_valid?(availability_from: params[:availability_from], availability_until: params[:availability_until])
+      space = Space.create(title: params[:title], description: params[:description], picture: params[:picture],
+                            price: params[:price], user_id: session[:id], availability_from: params[:availability_from], availability_until: params[:availability_until])
+      Email.send_email(user_email: @user.email, event: :create_listing)
+      flash[:success] = "Space created"
+      redirect "/spaces/#{space.id}"
+    else
+      flash[:danger] = "End date must be after start date"
+      redirect '/spaces/new'
+    end
   end
 
   get '/spaces/:id' do
     @space = Space.find(id: params[:id])
+    p @space
     @space_owner = User.find(@space.user_id)
     erb :'/spaces/space'
   end

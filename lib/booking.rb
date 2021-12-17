@@ -47,7 +47,7 @@ class Booking
     spaces = DatabaseConnection.query("SELECT * FROM spaces where user_id=$1", [user_id])
     spaces.each do
       |space|
-      result = DatabaseConnection.query("SELECT * FROM bookings where space_id=$1;", [space['id']])
+      result = DatabaseConnection.query("SELECT * FROM bookings where space_id=$1 ORDER BY id ASC;", [space['id']])
       result.each do 
         |booking| 
         bookings.push(Booking.new(booking['id'], booking['user_id'], booking['space_id'], booking['date'], booking['confirmed']))
@@ -57,7 +57,7 @@ class Booking
   end
 
   def self.made_requests(user_id)
-    bookings = DatabaseConnection.query("SELECT * FROM bookings WHERE user_id = $1", [user_id])
+    bookings = DatabaseConnection.query("SELECT * FROM bookings WHERE user_id = $1 ORDER BY id ASC", [user_id])
     bookings.map { |booking| Booking.new(booking['id'], booking['user_id'], booking['space_id'], booking['date'], booking['confirmed']) }
   end
 

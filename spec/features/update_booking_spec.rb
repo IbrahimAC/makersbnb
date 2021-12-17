@@ -2,9 +2,8 @@ feature 'update booking' do
   scenario 'a user should be able to update their booking' do
     sign_up
     post_listing
-    visit('/spaces')
-    click_link('Test house')
-    click_link('Update booking')
+    visit '/user/bookings'
+    click_link('Update')
     fill_in 'title', with: 'Updated house'
     fill_in 'description', with: 'updated house description'
     fill_in 'price', with: '30'
