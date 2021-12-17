@@ -10,7 +10,7 @@ feature "user can delete a space" do
     fill_in 'availability_from', with: '2022-01-15'
     fill_in 'availability_until', with: '2022-01-18'
     click_button 'Create space'
-
+    visit '/user/bookings'
     expect(page).to have_content 'Test house'
     click_button 'Delete'
     expect(page).to have_content 'Space deleted'

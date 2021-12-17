@@ -101,4 +101,16 @@ describe 'Space' do
     expect(updated_space.availability_until).to eq '2022-02-21'
   end
 
+  it 'should be able to tell if dates are valid (valid date)' do
+    expect(Space.is_valid?(availability_from: '2022-02-01', availability_until: '2022-02-21')).to be true
+  end
+
+  it 'should be able to tell if dates are valid (invalid date)' do
+    expect(Space.is_valid?(availability_from: '2022-03-01', availability_until: '2022-02-21')).to be false
+  end
+
+  it 'should be able to tell if dates are valid (invalid date - same date)' do
+    expect(Space.is_valid?(availability_from: '2022-03-01', availability_until: '2022-03-01')).to be false
+  end
+
 end
