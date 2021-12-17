@@ -75,14 +75,16 @@
   <% end %>
   <p><%=booking.date %></p>
   <p>Requested by <%=User.find(booking.user_id).name%></p>
-  <form action="/bookings/<%= booking.id %>/confirm" method="post">
-    <input type="submit" value="Confirm">
-  </form>
 
-  <form action="/bookings/<%= booking.id %>/reject" method="post">
-    <input type="submit" value="Reject">
-  </form>
+  <% if !booking.confirmed %>
+    <form action="/bookings/<%= booking.id %>/confirm" method="post">
+      <input type="submit" value="Confirm">
+    </form>
 
+    <form action="/bookings/<%= booking.id %>/reject" method="post">
+      <input type="submit" value="Reject">
+    </form>
+  <% end %>
 <% end %>
   </div>
 </div>
