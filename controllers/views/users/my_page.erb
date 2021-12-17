@@ -1,99 +1,71 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-* {
-  box-sizing: border-box;
-}
-
-.column {
-  float: left;
-  width: 50%;
-  padding: 10px;
-}
-
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-</style>
-</head>
-<body>
-
-<div class="row">
+<div class="columns is-centered">
   <div class="column">
-<div class="title has-text-centered is-4">My spaces</div>
+    <div class="title has-text-centered is-4">My spaces</div>
 
-<% @spaces.each do |space| %>
-  <p>
-  <div class="subtitle is-size-4"> <a href="/spaces/<%=space.id%>"> <%= space.title %> </a></div>
-  <p><%= space.description %></p>
-  <p class="has-text-weight-semibold">£<%= space.price %></p>
-  <p><%= space.picture %></p>
-  <p class="has-text-weight-semibold">Available from: <%= space.availability_from %> to <%= space.availability_until %></p>
-
-  <div class="display is-inline-flex">
-    <p>
-      <form action="/users/delete/<%= space.id%>" method="post">
-        <input id="hidden" type="hidden" name="_method" value="delete">
-        <input class="button is-small is-danger" type="submit" value="Delete">
-      </form>
-
-      <a class="button is-small is-info" href="/spaces/<%= space.id %>/update">Update</a>
-     </p>
-  </div>
-  
-  <br>
-  <br>
-<% end %>
-</div>
-
-<div class="column" style="background-color:#bbb;">
-
-<h1>Made requests:</h1>
-<% @made_requests.each do |booking| %>
-  <p><%= Space.find(id: booking.space_id).title %></p>
-  <p>Posted by <%= User.find(Space.find(id: booking.space_id).user_id).name %></p>
-  <% if booking.confirmed == nil %> 
-    <p>Not confirmed</p>
-  <% elsif booking.confirmed == 't' %>
-    <p>Confirmed</p>
-  <% elsif booking.confirmed == 'f' %>
-    <p>Rejected</p>
-  <% end %>
-  <p><%=booking.date %></p>
-<% end %>
-
-<hr>
-<h1>Received requests:</h1>
-<% @received_requests.each do |booking| %>
-  <h1><%= Space.find(id: booking.space_id).title %></h1>
-  <% if booking.confirmed == nil %> 
-    <p>Not confirmed</p>
-  <% elsif booking.confirmed == 't' %>
-    <p>Confirmed</p>
-  <% elsif booking.confirmed == 'f' %>
-    <p>Rejected</p>
-  <% end %>
-  <p><%=booking.date %></p>
-  <p>Requested by <%=User.find(booking.user_id).name%></p>
-
-  <div class="display is-inline-flex">
-    <% if !booking.confirmed %>
-      <form action="/bookings/<%= booking.id %>/confirm" method="post">
-        <input class="button is-small is-success" type="submit" value="Confirm">
-      </form>
-
-      <form action="/bookings/<%= booking.id %>/reject" method="post">
-        <input class="button is-small is-danger" type="submit" value="Reject">
-      </form>
+    <% @spaces.each do |space| %>
+      <p>
+        <a class="subtitle is-size-4 is-underlined" href="/spaces/<%=space.id%>"> <%= space.title %> </a>
+        <p><%= space.description %></p>
+        <p class="has-text-weight-semibold">£<%= space.price %></p>
+        <p><%= space.picture %></p>
+        </p class="has-text-weight-semibold">Available from: <%= space.availability_from %> to <%= space.availability_until %> </p>
+      </p>
+      
+        <div class="display is-inline-flex">
+          <form action="/users/delete/<%= space.id%>" method="post">
+            <input id="hidden" type="hidden" name="_method" value="delete">
+            <input class="button is-small is-danger" type="submit" value="Delete">
+          </form>
+          <a class="button is-small is-info" href="/spaces/<%= space.id %>/update">Update</a> </p>
+          <br> <br>
+        </div>
     <% end %>
   </div>
-<% end %>
-  </div>
-</div>
 
-</body>
-</html>
+
+  <div class="column" style="background-color:#DCDCDC	;">
+
+    <h1 class="title is-size-4">Made requests:</h1>
+    <% @made_requests.each do |booking| %>
+      <p><%= Space.find(id: booking.space_id).title %></p>
+      <p>Posted by <%= User.find(Space.find(id: booking.space_id).user_id).name %></p>
+      <% if booking.confirmed == nil %> 
+        <p class="text has-text-weight-semibold">Not confirmed</p>
+      <% elsif booking.confirmed == 't' %>
+        <p class="text has-text-weight-semibold">Confirmed</p>
+      <% elsif booking.confirmed == 'f' %>
+        <p class="text has-text-weight-semibold">Rejected</p>
+      <% end %>
+      <p><%=booking.date %></p>
+    <% end %>
+
+    <hr>
+    <h1 class="title is-size-4">Recieved requests:</h1>
+    <% @received_requests.each do |booking| %>
+      <h1><%= Space.find(id: booking.space_id).title %></h1>
+      <% if booking.confirmed == nil %> 
+        <p class="text has-text-weight-semibold">Not confirmed</p>
+      <% elsif booking.confirmed == 't' %>
+        <p class="text has-text-weight-semibold">Confirmed</p>
+      <% elsif booking.confirmed == 'f' %>
+        <p class="text has-text-weight-semibold">Rejected</p>
+      <% end %>
+      <p><%=booking.date %></p>
+      <p>Requested by <%=User.find(booking.user_id).name%></p>
+
+    <div class="display is-inline-flex">
+      <% if !booking.confirmed %>
+        <form action="/bookings/<%= booking.id %>/confirm" method="post">
+          <input class="button is-small is-success" type="submit" value="Confirm">
+        </form>
+
+        <form action="/bookings/<%= booking.id %>/reject" method="post">
+          <input class="button is-small is-danger" type="submit" value="Reject">
+        </form>
+      <% end %>
+    </div>
+  <% end %>
+    </div>
+  </div>
+
+</div>
