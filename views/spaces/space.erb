@@ -34,10 +34,12 @@
           <a href="/bookings/<%= @space.id %>/new">Request booking</a>
         </button>
       <% else %>
-        <p>You are the owner of this space</p>
-        <a href="/spaces" class="button">
-          All spaces
-        </a>
+        <div class="has-text-centered">
+          <p class="has-text-weight-semibold is-size-6">You are the owner of this space</p>
+          <a href="/spaces" class="button">
+            All spaces
+          </a>
+        </div>
       <% end %>
     </div>
 
