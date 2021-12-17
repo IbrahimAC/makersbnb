@@ -74,6 +74,12 @@ class AirBnb < Sinatra::Base
     erb :'users/booking'
   end
 
+  delete '/users/delete/:id' do
+    Space.delete(id: params[:id])
+    flash[:success] = "Space deleted"
+    redirect '/user/bookings'
+  end
+
   get '/spaces' do
     @spaces = Space.all
     erb :'spaces/index'
@@ -87,8 +93,6 @@ class AirBnb < Sinatra::Base
     space = Space.create(title: params[:title], description: params[:description], picture: params[:picture],
                            price: params[:price], user_id: session[:id], availability_from: params[:availability_from], availability_until: params[:availability_until])
     Email.send_email(user_email: @user.email, event: :create_listing)
-                           price: params[:price], user_id: session[:id], availability_from: params[:availability_from], availability_until: params[:availability_until]
-    )
     flash[:success] = "Space created"
     redirect "/spaces/#{space.id}"
   end
