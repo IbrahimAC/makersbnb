@@ -30,9 +30,9 @@
           Log in
         </a>
       <% elsif @space_owner.id != @user.id %>
-        <button>
-          <a href="/bookings/<%= @space.id %>/new">Request booking</a>
-        </button>
+        <div class="text has-text-centered">
+          <a class="button is-primary is-centered" href="/bookings/<%= @space.id %>/new">Request booking</a>
+        </div>
       <% else %>
         <div class="has-text-centered">
           <p class="has-text-weight-semibold is-size-6">You are the owner of this space</p>

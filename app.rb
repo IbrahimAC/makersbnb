@@ -72,7 +72,7 @@ class AirBnb < Sinatra::Base
       @spaces = Space.find_by_user(id: session[:id])
       @made_requests = Booking.made_requests(session[:id])
       @received_requests = Booking.received_requests(session[:id])
-      erb :'users/booking'
+      erb :'users/my_page'
     else
       flash[:danger] = "Must be logged in to do that. Please log in or #{'<a href="/user/new">sign up</a>'}."
       redirect '/user/login'
