@@ -1,4 +1,4 @@
-Setting up Makersbnb
+Setting up MakersBnB 
 -----
 ```
 git clone https://github.com/IbrahimAC/makersbnb.git
