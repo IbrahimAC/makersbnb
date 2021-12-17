@@ -3,6 +3,10 @@ class SpacesController < Sinatra::Base
   enable :sessions, :method_override
   register Sinatra::Flash
 
+  before do
+    @user = User.find(session[:id])
+  end
+  
   get '/spaces' do
     @spaces = Space.all
     erb :'spaces/index'

@@ -25,4 +25,3 @@ group :development, :test do
   gem 'bcrypt', '~> 3.1'
   gem "sendgrid-ruby", "~> 6.6"
 end
-

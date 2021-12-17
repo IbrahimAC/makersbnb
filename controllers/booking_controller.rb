@@ -3,6 +3,10 @@ class BookingController < Sinatra::Base
   enable :sessions, :method_override
   register Sinatra::Flash
 
+  before do
+    @user = User.find(session[:id])
+  end
+
   before '/bookings/*' do
     if @user == nil
       flash[:danger] = "Must be logged in to do that. Please log in or #{'<a href="/user/new">sign up</a>'}."
