@@ -29,7 +29,7 @@ feature 'confirming booking' do
     fill_in('password', with: 'password123')
     click_button('Submit')
 
-    visit 'user/bookings'
+    visit '/user/my_page'
     click_button 'Confirm'
 
     expect(page).to have_content "Confirmed"
