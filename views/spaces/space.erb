@@ -4,6 +4,22 @@
 <p>Available from: <%= @space.availability_from %> to <%= @space.availability_until %>
 <p>Posted by <%= @space_owner.name %></p>
 
-<button>
-  <a href="/bookings/<%= @space.id %>/new">Request booking</a>
-</button>
+<% if !@user %>
+  <p>To book a space</p>
+  <a href="/user/new" class="button">
+    Sign up
+  </a>
+  <span>or</span>
+  <a href="/user/login" class="button">
+    Log in
+  </a>
+<% elsif @space_owner.id != @user.id %>
+  <button>
+    <a href="/bookings/<%= @space.id %>/new">Request booking</a>
+  </button>
+<% else %>
+  <p>You are the owner of this space</p>
+  <a href="/spaces" class="button">
+    All spaces
+  </a>
+<% end %>
