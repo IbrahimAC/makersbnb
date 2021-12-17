@@ -23,25 +23,29 @@
 <body>
 
 <div class="row">
-  <div class="column" style="background-color:#aaa;">
-<h1>My spaces:</h1>
-<br>
+  <div class="column">
+<div class="title has-text-centered is-4">My spaces</div>
+
 <% @spaces.each do |space| %>
   <p>
-  <h1><a href="/spaces/<%=space.id%>"> <%= space.title %> </a></h1>
+  <div class="subtitle is-size-4"> <a href="/spaces/<%=space.id%>"> <%= space.title %> </a></div>
   <p><%= space.description %></p>
-  <p>£<%= space.price %></p>
+  <p class="has-text-weight-semibold">£<%= space.price %></p>
   <p><%= space.picture %></p>
-  <p>Available from: <%= space.availability_from %> to <%= space.availability_until %></p>
+  <p class="has-text-weight-semibold">Available from: <%= space.availability_from %> to <%= space.availability_until %></p>
 
-  <form action="/users/delete/<%= space.id%>" method="post">
-    <input id="hidden" type="hidden" name="_method" value="delete">
-    <input type="submit" value="Delete">
-  </form>
+  <div class="display is-inline-flex">
+    <p>
+      <form action="/users/delete/<%= space.id%>" method="post">
+        <input id="hidden" type="hidden" name="_method" value="delete">
+        <input class="button is-small is-danger" type="submit" value="Delete">
+      </form>
 
-  <button>
-    <a href="/spaces/<%= space.id %>/update">Update</a>
-  </button>
+      <a class="button is-small is-info" href="/spaces/<%= space.id %>/update">Update</a>
+     </p>
+  </div>
+  
+  <br>
   <br>
 <% end %>
 </div>
@@ -76,15 +80,17 @@
   <p><%=booking.date %></p>
   <p>Requested by <%=User.find(booking.user_id).name%></p>
 
-  <% if !booking.confirmed %>
-    <form action="/bookings/<%= booking.id %>/confirm" method="post">
-      <input type="submit" value="Confirm">
-    </form>
+  <div class="display is-inline-flex">
+    <% if !booking.confirmed %>
+      <form action="/bookings/<%= booking.id %>/confirm" method="post">
+        <input class="button is-small is-success" type="submit" value="Confirm">
+      </form>
 
-    <form action="/bookings/<%= booking.id %>/reject" method="post">
-      <input type="submit" value="Reject">
-    </form>
-  <% end %>
+      <form action="/bookings/<%= booking.id %>/reject" method="post">
+        <input class="button is-small is-danger" type="submit" value="Reject">
+      </form>
+    <% end %>
+  </div>
 <% end %>
   </div>
 </div>
