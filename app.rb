@@ -68,10 +68,15 @@ class AirBnb < Sinatra::Base
   end
 
   get '/user/my_page' do
-    @spaces = Space.find_by_user(id: session[:id])
-    @made_requests = Booking.made_requests(session[:id])
-    @received_requests = Booking.received_requests(session[:id])
-    erb :'users/booking'
+    if @user
+      @spaces = Space.find_by_user(id: session[:id])
+      @made_requests = Booking.made_requests(session[:id])
+      @received_requests = Booking.received_requests(session[:id])
+      erb :'users/booking'
+    else
+      flash[:danger] = "Must be logged in to do that. Please log in or #{'<a href="/user/new">sign up</a>'}."
+      redirect '/user/login'
+    end
   end
 
   delete '/users/delete/:id' do
@@ -86,7 +91,12 @@ class AirBnb < Sinatra::Base
   end
 
   get '/spaces/new' do
-    erb :'spaces/new'
+    if @user
+      erb :'spaces/new'
+    else
+      flash[:danger] = "Must be logged in to do that. Please log in or #{'<a href="/user/new">sign up</a>'}."
+      redirect '/user/login'
+    end
   end
 
   post '/spaces' do
@@ -115,9 +125,14 @@ class AirBnb < Sinatra::Base
   end
 
   get '/spaces/:id/update' do
-    @space = Space.find(id: params[:id])
-    @space_owner = User.find(@space.user_id)
-    erb :'/spaces/update'
+    if @user
+      @space = Space.find(id: params[:id])
+      @space_owner = User.find(@space.user_id)
+      erb :'/spaces/update'
+    else
+      flash[:danger] = "Must be logged in to do that. Please log in or #{'<a href="/user/new">sign up</a>'}."
+      redirect '/user/login'
+    end
   end
 
   patch '/spaces/:id/update' do
@@ -129,10 +144,15 @@ class AirBnb < Sinatra::Base
   end
 
   get '/bookings/:id/new' do
-    @space_id = params[:id]
-    @available_dates = Space.list_available_dates(space: Space.find(id: @space_id))
-    @unavailable_dates = Booking.unavailable_dates(params[:id])
-    erb :'bookings/new'
+    if @user
+      @space_id = params[:id]
+      @available_dates = Space.list_available_dates(space: Space.find(id: @space_id))
+      @unavailable_dates = Booking.unavailable_dates(params[:id])
+      erb :'bookings/new'
+    else
+      flash[:danger] = "Must be logged in to do that. Please log in or #{'<a href="/user/new">sign up</a>'}."
+      redirect '/user/login'
+    end
   end
 
   post '/bookings/:id' do
