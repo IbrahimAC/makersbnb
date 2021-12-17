@@ -1,15 +1,23 @@
-<form action="/bookings/<%= @space_id %>" method="post">
-  <label for="date">Request a night:</label>
+<div class="columns is-centered">
+  <div class="column is-one-fifth">
 
-  <select name="date" id="date">  
-    <% @available_dates.each do |date| %>
-      <% if !@unavailable_dates.include?(date) %>
-        <option value="<%= date %>"><%= date %></option>
-        <% else %>
-        <option value="<%= date %>" disabled><%= date %></option>
-      <%end %>
-    <% end %>
-  </select>
+     <form action="/bookings/<%= @space_id %>" method="post">
 
-  <input type="submit" value="Make request">
-</form>
+      <div class="field has-text-centered">
+        <label class="label" for="date">Request a night:</label>
+          <select class="select" name="date" id="date">  
+            <% @available_dates.each do |date| %>
+              <% if !@unavailable_dates.include?(date) %>
+                <option value="<%= date %>"><%= date %></option>
+                <% else %>
+                <option value="<%= date %>" disabled><%= date %></option>
+              <%end %>
+            <% end %>
+          </select>
+      </div>
+      <div class="field has-text-centered">
+        <input class="button is-link fa-align-center" type="submit" value="Make request">
+      </div>
+    </form>
+  </div>
+</div>

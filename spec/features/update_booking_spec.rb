@@ -7,7 +7,6 @@ feature 'update booking' do
     fill_in 'title', with: 'Updated house'
     fill_in 'description', with: 'updated house description'
     fill_in 'price', with: '30'
-    fill_in 'picture', with: 'new_url'
     fill_in "availability_from", with: "2022/02/01"
     fill_in "availability_until", with: "2022/02/20"
     click_button('Update')
