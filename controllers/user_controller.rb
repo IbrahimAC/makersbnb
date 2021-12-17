@@ -3,6 +3,10 @@ class UsersController < Sinatra::Base
   enable :sessions,:method_override
   register Sinatra::Flash
 
+  before do
+    @user = User.find(session[:id])
+  end
+
   get '/user/new' do
     erb :'users/signup'
   end

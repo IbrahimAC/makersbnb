@@ -6,11 +6,14 @@ require_relative './database_helper'
 require_relative '../database_connection_setup'
 require 'simplecov'
 require 'simplecov-console'
-require File.join(File.dirname(__FILE__), '..', 'app.rb')
+require File.join(File.dirname(__FILE__), '..', '/controllers/app.rb')
 require 'rspec'
+require 'webmock'
+require 'webmock/rspec'
 require 'capybara'
 require 'capybara/rspec'
 require_relative './web_helper'
+
 Capybara.app = AirBnb
 
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
@@ -24,6 +27,17 @@ SimpleCov.start
 RSpec.configure do |config|
   config.before(:each) do
     test_database_setup
+    WebMock.allow_net_connect!
+    WebMock.stub_request(:post, "https://api.sendgrid.com/v3/mail/send").
+    with(
+      body: "{\"from\":{\"email\":\"makers@example.com\"},\"subject\":\"MakersBnB\",\"personalizations\":[{\"to\":[{\"email\":\"test@example.com\"}]}],\"content\":[{\"type\":\"text/plain\",\"value\":\"Your account has been created\"}]}",
+      headers: {
+     'Accept'=>'application/json',
+     'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+     'Authorization'=>"Bearer #{ENV['SENDGRID_API']}",
+     'Content-Type'=>'application/json',
+     'User-Agent'=>'sendgrid/6.6.0;ruby'
+      }).to_return(status: 200, body: "", headers: {})
   end
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest

@@ -8,9 +8,9 @@ require './lib/booking'
 require './lib/email'
 require './database_connection_setup'
 require 'sinatra/flash'
-require_relative 'controllers/booking_controller.rb'
-require_relative 'controllers/spaces_controller.rb'
-require_relative 'controllers/user_controller.rb'
+require_relative './booking_controller.rb'
+require_relative './spaces_controller.rb'
+require_relative './user_controller.rb'
 
 # AirBnB class
 class AirBnb < Sinatra::Base
@@ -30,7 +30,7 @@ class AirBnb < Sinatra::Base
   end
 
   get '/' do
-    erb :index, :layout => false
+    erb :'index', :layout => false
   end
 
 run! if app_file == $PROGRAM_NAME

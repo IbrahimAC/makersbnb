@@ -26,3 +26,5 @@ group :development, :test do
   gem "sendgrid-ruby", "~> 6.6"
 end
 
+
+gem "launchy", "~> 2.5"
