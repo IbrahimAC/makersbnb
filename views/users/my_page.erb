@@ -38,7 +38,7 @@
     <p>
       <form action="/users/delete/<%= space.id%>" method="post">
         <input id="hidden" type="hidden" name="_method" value="delete">
-        <input class="button is-small" type="submit" value="Delete">
+        <input class="button is-small is-danger" type="submit" value="Delete">
       </form>
 
       <a class="button is-small is-info" href="/spaces/<%= space.id %>/update">Update</a>
@@ -83,7 +83,7 @@
   <div class="display is-inline-flex">
     <% if !booking.confirmed %>
       <form action="/bookings/<%= booking.id %>/confirm" method="post">
-        <input class="button is-small is-sucess" type="submit" value="Confirm">
+        <input class="button is-small is-success" type="submit" value="Confirm">
       </form>
 
       <form action="/bookings/<%= booking.id %>/reject" method="post">
