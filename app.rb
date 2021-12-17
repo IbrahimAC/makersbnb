@@ -68,16 +68,26 @@ class AirBnb < Sinatra::Base
   end
 
   get '/user/my_page' do
-    @spaces = Space.find_by_user(id: session[:id])
-    @made_requests = Booking.made_requests(session[:id])
-    @received_requests = Booking.received_requests(session[:id])
-    erb :'users/booking'
+    if @user
+      @spaces = Space.find_by_user(id: session[:id])
+      @made_requests = Booking.made_requests(session[:id])
+      @received_requests = Booking.received_requests(session[:id])
+      erb :'users/booking'
+    else
+      flash[:danger] = "Must be logged in to do that. Please log in or #{'<a href="/user/new">sign up</a>'}."
+      redirect '/user/login'
+    end
   end
 
   delete '/users/delete/:id' do
-    Space.delete(id: params[:id])
-    flash[:success] = "Space deleted"
-    redirect '/user/my_page'
+    if @user
+      Space.delete(id: params[:id])
+      flash[:success] = "Space deleted"
+      redirect '/user/my_page'
+    else
+      flash[:danger] = "Must be logged in to do that. Please log in or #{'<a href="/user/new">sign up</a>'}."
+      redirect '/user/login'
+    end
   end
 
   get '/spaces' do
@@ -86,19 +96,29 @@ class AirBnb < Sinatra::Base
   end
 
   get '/spaces/new' do
-    erb :'spaces/new'
+    if @user
+      erb :'spaces/new'
+    else
+      flash[:danger] = "Must be logged in to do that. Please log in or #{'<a href="/user/new">sign up</a>'}."
+      redirect '/user/login'
+    end
   end
 
   post '/spaces' do
-    if Space.is_valid?(availability_from: params[:availability_from], availability_until: params[:availability_until])
-      space = Space.create(title: params[:title], description: params[:description], picture: params[:picture],
-                            price: params[:price], user_id: session[:id], availability_from: params[:availability_from], availability_until: params[:availability_until])
-      Email.send_email(user_email: @user.email, event: :create_listing)
-      flash[:success] = "Space created"
-      redirect "/spaces/#{space.id}"
+    if @user
+      if Space.is_valid?(availability_from: params[:availability_from], availability_until: params[:availability_until])
+        space = Space.create(title: params[:title], description: params[:description], picture: params[:picture],
+                              price: params[:price], user_id: session[:id], availability_from: params[:availability_from], availability_until: params[:availability_until])
+        Email.send_email(user_email: @user.email, event: :create_listing)
+        flash[:success] = "Space created"
+        redirect "/spaces/#{space.id}"
+      else
+        flash[:danger] = "End date must be after start date"
+        redirect '/spaces/new'
+      end
     else
-      flash[:danger] = "End date must be after start date"
-      redirect '/spaces/new'
+      flash[:danger] = "Must be logged in to do that. Please log in or #{'<a href="/user/new">sign up</a>'}."
+      redirect '/user/login'
     end
   end
 
@@ -108,31 +128,42 @@ class AirBnb < Sinatra::Base
     erb :'/spaces/space'
   end
 
-  delete '/spaces/delete/:id' do
-    Space.delete(id: params[:id])
-    flash[:success] = "Space deleted"
-    redirect '/spaces'
-  end
-
   get '/spaces/:id/update' do
-    @space = Space.find(id: params[:id])
-    @space_owner = User.find(@space.user_id)
-    erb :'/spaces/update'
+    if @user
+      @space = Space.find(id: params[:id])
+      @space_owner = User.find(@space.user_id)
+      erb :'/spaces/update'
+    else
+      flash[:danger] = "Must be logged in to do that. Please log in or #{'<a href="/user/new">sign up</a>'}."
+      redirect '/user/login'
+    end
   end
 
   patch '/spaces/:id/update' do
-    Space.update(id: params[:id], title: params[:title],
-    description: params[:description], picture: params[:picture], price: params[:price],
-    availability_from: params[:availability_from], availability_until: params[:availability_until])
-    flash[:success] = "Space updated"
-    redirect "/spaces/#{params[:id]}"
+    if @user
+      Space.update(id: params[:id], title: params[:title],
+      description: params[:description], picture: params[:picture], price: params[:price],
+      availability_from: params[:availability_from], availability_until: params[:availability_until])
+      flash[:success] = "Space updated"
+      redirect "/spaces/#{params[:id]}"
+    else
+      flash[:danger] = "Must be logged in to do that. Please log in or #{'<a href="/user/new">sign up</a>'}."
+      redirect '/user/login'
+    end
+  end
+
+  before '/bookings/*' do
+    if @user == nil
+      flash[:danger] = "Must be logged in to do that. Please log in or #{'<a href="/user/new">sign up</a>'}."
+      redirect '/user/login'
+    end
   end
 
   get '/bookings/:id/new' do
-    @space_id = params[:id]
-    @available_dates = Space.list_available_dates(space: Space.find(id: @space_id))
-    @unavailable_dates = Booking.unavailable_dates(params[:id])
-    erb :'bookings/new'
+      @space_id = params[:id]
+      @available_dates = Space.list_available_dates(space: Space.find(id: @space_id))
+      @unavailable_dates = Booking.unavailable_dates(params[:id])
+      erb :'bookings/new'
   end
 
   post '/bookings/:id' do
