@@ -1,3 +1,42 @@
+Setting up Makersbnb
+-----
+```
+git clone https://github.com/IbrahimAC/makersbnb.git
+cd makersbnb
+bundle install
+```
+
+### Database configuration
+```
+1 - psql
+2 - CREATE DATABASE makersbnb;
+3 - CREATE DATABASE makersbnb_test;
+4 - \c makersbnb
+5 - Follow instructions in db/migrations
+6 - repeat steps 4-5 for makersbnb_test
+```
+
+### Setting up email API 
+```
+Create data.env file with the following ENV vars:
+
+SENDGRID_API=
+EMAIL_FROM=
+
+Optional (Sending email functionality)
+----------------------------------------
+Create [Sendgrid](https://app.sendgrid.com/) account
+Add and verify a single sender email address
+Add Sengrid API and verified email address to ENV vars in data.env
+```
+
+### Running the website
+-----
+```
+rackup
+visit 'localhost:9292'
+```
+
 # Database configuration
 * CREATE DATABASE makersbnb;
 * \c makersbnb
@@ -6,9 +45,6 @@
 * \c makersbnb_test
 * CREATE TABLE users (id SERIAL PRIMARY KEY, name VARCHAR(60), email VARCHAR(60), password VARCHAR);
 
-# MakersBnB specification
-
-We would like a web application that allows users to list spaces they have available, and to hire spaces for the night.
 
 ### Headline specifications
 
@@ -38,16 +74,4 @@ We would like a web application that allows users to list spaces they have avail
 - A ‘chat’ functionality once a space has been booked, allowing users whose space-booking request has been confirmed to chat with the user that owns that space
 - Basic payment implementation though Stripe.
 
-### Mockups
 
-Mockups for MakersBnB are available [here](https://github.com/makersacademy/course/blob/main/makersbnb/makers_bnb_images/MakersBnB_mockups.pdf).
-
-<!-- BEGIN GENERATED SECTION DO NOT EDIT -->
-
----
-
-**How was this resource?**  
-[😫](https://airtable.com/shrUJ3t7KLMqVRFKR?prefill_Repository=makersacademy/course&prefill_File=makersbnb/specification_and_mockups.md&prefill_Sentiment=😫) [😕](https://airtable.com/shrUJ3t7KLMqVRFKR?prefill_Repository=makersacademy/course&prefill_File=makersbnb/specification_and_mockups.md&prefill_Sentiment=😕) [😐](https://airtable.com/shrUJ3t7KLMqVRFKR?prefill_Repository=makersacademy/course&prefill_File=makersbnb/specification_and_mockups.md&prefill_Sentiment=😐) [🙂](https://airtable.com/shrUJ3t7KLMqVRFKR?prefill_Repository=makersacademy/course&prefill_File=makersbnb/specification_and_mockups.md&prefill_Sentiment=🙂) [😀](https://airtable.com/shrUJ3t7KLMqVRFKR?prefill_Repository=makersacademy/course&prefill_File=makersbnb/specification_and_mockups.md&prefill_Sentiment=😀)  
-Click an emoji to tell us.
-
-<!-- END GENERATED SECTION DO NOT EDIT -->
