@@ -10,19 +10,18 @@
         </figure>
       </div>
       <div class="card-content">
-      <div class="media">
-      <div class="media-content">
-        <a href="/spaces/<%=space.id%>" class="title is-4"> <%= space.title %> </a>
+        <div class="media">
+          <div class="media-content">
+            <a href="/spaces/<%=space.id%>" class="title is-4"> <%= space.title %> </a>
+          </div>
+        </div>
+        <div class="content">
+          <p class="has-text-weight-semibold">£<%= space.price %>/night</p>
+        </div>
       </div>
     </div>
-
-      <div class="content">
-        <p class="has-text-weight-semibold">£<%= space.price %>/night</p>
-      </div>
-    </div>
-  
   </div>
 
   <% end %>
-  
+
 </div>
