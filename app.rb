@@ -34,18 +34,15 @@ class AirBnb < Sinatra::Base
   post '/user/signup' do
     user = User.create(name: params[:name], email: params[:email], password: params[:password])
     if user.nil?
-      flash[:error] = 'Email address in use. Please log in or sign up with a different email.'
+      flash[:danger] = 'Email address in use. Please log in or sign up with a different email.'
       session[:id] = nil
+      redirect '/user/new'
     else
       session[:id] = user.id
-      p user.email
       Email.send_email(user_email: user.email,event: :sign_up)
+      flash[:success] = "Welcome to MakersBnB, #{user.name}"
+      redirect '/spaces'
     end
-    redirect 'user/signup/confirmation'
-  end
-
-  get '/user/signup/confirmation' do
-    erb :'users/confirmation'
   end
 
   get '/user/login' do
@@ -54,21 +51,24 @@ class AirBnb < Sinatra::Base
 
   post '/user/logout' do
     session.clear
-    redirect '/'
+    flash[:success] = "You are now Logged out"
+    redirect '/spaces'
   end
 
   post '/user/authenticate' do
     user = User.authenticate(params[:email], params[:password])
     if user.nil?
-      flash[:error] = 'Incorrect email or password.'
+      flash[:danger] = 'Incorrect email or password.'
       redirect '/user/login'
     else
+      flash[:success] = "Welcome back, #{user.name}"
       session[:id] = user.id
       redirect '/spaces'
     end
   end
 
   get '/user/bookings' do
+    @spaces = Space.find_by_user(id: session[:id])
     @made_requests = Booking.made_requests(session[:id])
     @received_requests = Booking.received_requests(session[:id])
     erb :'users/booking'
@@ -87,6 +87,9 @@ class AirBnb < Sinatra::Base
     space = Space.create(title: params[:title], description: params[:description], picture: params[:picture],
                            price: params[:price], user_id: session[:id], availability_from: params[:availability_from], availability_until: params[:availability_until])
     Email.send_email(user_email: @user.email, event: :create_listing)
+                           price: params[:price], user_id: session[:id], availability_from: params[:availability_from], availability_until: params[:availability_until]
+    )
+    flash[:success] = "Space created"
     redirect "/spaces/#{space.id}"
   end
 
@@ -96,10 +99,9 @@ class AirBnb < Sinatra::Base
     erb :'/spaces/space'
   end
 
-
   delete '/spaces/delete/:id' do
     Space.delete(id: params[:id])
-    flash[:notice] = "Space deleted"
+    flash[:success] = "Space deleted"
     redirect '/spaces'
   end
 
@@ -113,11 +115,8 @@ class AirBnb < Sinatra::Base
     Space.update(id: params[:id], title: params[:title],
     description: params[:description], picture: params[:picture], price: params[:price],
     availability_from: params[:availability_from], availability_until: params[:availability_until])
+    flash[:success] = "Space updated"
     redirect "/spaces/#{params[:id]}"
-  end
-
-  get '/user/signup/confirmation' do
-    erb :'users/confirmation'
   end
 
   get '/bookings/:id/new' do
@@ -136,6 +135,7 @@ class AirBnb < Sinatra::Base
     booking = Booking.confirm(params[:id], true)
     user = User.find(booking.user_id)
     Email.send_email(user_email: user.email, event: :booking_confirmed)
+    Booking.confirm(params[:id], true)
     redirect 'user/bookings'
   end
 
@@ -146,6 +146,5 @@ class AirBnb < Sinatra::Base
     redirect 'user/bookings'
   end
 
-
-  run! if app_file == $PROGRAM_NAME
+run! if app_file == $PROGRAM_NAME
 end

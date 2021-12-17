@@ -71,7 +71,6 @@ describe 'Space' do
       availability_from: '2021-12-16', availability_until: '2021-12-18')
     
     result = Space.list_available_dates(space: space)
-    p result
     expect(result.length).to eq 3
     expect(result).to be_a Array
     expect(result).to eq(['2021-12-16', '2021-12-17', '2021-12-18'])
@@ -101,4 +100,5 @@ describe 'Space' do
     expect(updated_space.availability_from).to eq '2022-02-01'
     expect(updated_space.availability_until).to eq '2022-02-21'
   end
+
 end

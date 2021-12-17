@@ -9,7 +9,8 @@
 </button>
 
 
-<% if @space_owner.id == @user.id %>
+
+<% if @user && @space_owner.id == @user.id %>
   <form action="/spaces/delete/<%= @space.id%>" method="post">
     <input id="hidden" type="hidden" name="_method" value="delete">
     <input type="submit" value="Delete">

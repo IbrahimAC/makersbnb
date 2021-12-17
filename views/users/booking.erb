@@ -1,4 +1,57 @@
+
 <h1>Made requests</h1>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+</style>
+</head>
+<body>
+
+<div class="row">
+  <div class="column" style="background-color:#aaa;">
+<h1>My spaces:</h1>
+<br>
+<% @spaces.each do |space| %>
+  <p>
+  <h1><a href="/spaces/<%=space.id%>"> <%= space.title %> </a></h1>
+  <p><%= space.description %></p>
+  <p>£<%= space.price %></p>
+  <p><%= space.picture %></p>
+  <p>Available from: <%= space.availability_from %> to <%= space.availability_until %></p>
+
+  <form action="/spaces/delete/<%= space.id%>" method="post">
+    <input id="hidden" type="hidden" name="_method" value="delete">
+    <input type="submit" value="Delete">
+  </form>
+
+  <button>
+    <a href="/spaces/<%= space.id %>/update">Update</a>
+  </button>
+  <br>
+<% end %>
+</div>
+
+<div class="column" style="background-color:#bbb;">
+
+<h1>Made requests:</h1>
 <% @made_requests.each do |booking| %>
   <p><%= Space.find(id: booking.space_id).title %></p>
   <p>Posted by <%= User.find(Space.find(id: booking.space_id).user_id).name %></p>
@@ -12,9 +65,10 @@
   <p><%=booking.date %></p>
 <% end %>
 
-<h1>Received requests</h1>
+<hr>
+<h1>Received requests:</h1>
 <% @received_requests.each do |booking| %>
-  <p><%= Space.find(id: booking.space_id).title %></p>
+  <h1><%= Space.find(id: booking.space_id).title %></h1>
   <% if booking.confirmed == nil %> 
     <p>Not confirmed</p>
   <% elsif booking.confirmed == 't' %>
@@ -31,4 +85,10 @@
   <form action="/bookings/<%= booking.id %>/reject" method="post">
     <input type="submit" value="Reject">
   </form>
+
 <% end %>
+  </div>
+</div>
+
+</body>
+</html>

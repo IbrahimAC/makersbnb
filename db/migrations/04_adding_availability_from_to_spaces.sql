@@ -1,1 +1,1 @@
-ALTER TABLE spaces ADD availability_from VARCHAR;
+ALTER TABLE spaces ADD availability_from DATE;

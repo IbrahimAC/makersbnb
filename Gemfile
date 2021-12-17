@@ -27,11 +27,9 @@ gem 'sinatra-contrib', '~> 2.1'
 
 gem 'bcrypt', '~> 3.1'
 
-
-gem "postmark", "~> 1.22"
-
 gem "sendgrid-ruby", "~> 6.6"
 
 gem "webmock", "~> 3.14"
 
 gem "dotenv", "~> 2.7"
+
