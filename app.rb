@@ -66,6 +66,7 @@ class AirBnb < Sinatra::Base
   end
 
   get '/user/bookings' do
+    @spaces = Space.find_by_user(id: session[:id])
     @made_requests = Booking.made_requests(session[:id])
     @received_requests = Booking.received_requests(session[:id])
     erb :'users/booking'
@@ -137,7 +138,6 @@ class AirBnb < Sinatra::Base
     Booking.confirm(params[:id], false)
     redirect 'user/bookings'
   end
-
 
   run! if app_file == $PROGRAM_NAME
 end
