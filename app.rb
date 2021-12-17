@@ -67,7 +67,7 @@ class AirBnb < Sinatra::Base
     end
   end
 
-  get '/user/bookings' do
+  get '/user/my_page' do
     @spaces = Space.find_by_user(id: session[:id])
     @made_requests = Booking.made_requests(session[:id])
     @received_requests = Booking.received_requests(session[:id])
@@ -77,7 +77,7 @@ class AirBnb < Sinatra::Base
   delete '/users/delete/:id' do
     Space.delete(id: params[:id])
     flash[:success] = "Space deleted"
-    redirect '/user/bookings'
+    redirect '/user/my_page'
   end
 
   get '/spaces' do
@@ -104,7 +104,6 @@ class AirBnb < Sinatra::Base
 
   get '/spaces/:id' do
     @space = Space.find(id: params[:id])
-    p @space
     @space_owner = User.find(@space.user_id)
     erb :'/spaces/space'
   end
@@ -138,7 +137,7 @@ class AirBnb < Sinatra::Base
 
   post '/bookings/:id' do
     Booking.request(session[:id], params[:id], params[:date])
-    redirect 'user/bookings'
+    redirect 'user/my_page'
   end
 
   post '/bookings/:id/confirm' do
@@ -146,14 +145,14 @@ class AirBnb < Sinatra::Base
     user = User.find(booking.user_id)
     Email.send_email(user_email: user.email, event: :booking_confirmed)
     Booking.confirm(params[:id], true)
-    redirect 'user/bookings'
+    redirect 'user/my_page'
   end
 
   post '/bookings/:id/reject' do
     booking = Booking.confirm(params[:id], false)
     user = User.find(booking.user_id)
     Email.send_email(user_email: user.email, event: :booking_rejected)
-    redirect 'user/bookings'
+    redirect 'user/my_page'
   end
 
 run! if app_file == $PROGRAM_NAME
