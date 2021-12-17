@@ -1,5 +1,35 @@
-<form action="/user/authenticate" method="post">
-  <input type="text" name="email" placeholder="Enter email">
-  <input type="password" name="password" placeholder="Enter password">
-  <input type="submit" value="Submit">
-</form>
+<div class="columns is-centered">
+  <div class="column is-half">
+    <h1 class="title has-text-centered">Log in</h1>
+
+        <form action="/user/authenticate" method="post">
+
+          <div class="field">
+            <label class="label">Email</label>
+            <div class="control has-icons-left">
+              <input class="input" name="email" type="email" placeholder="Email" required>
+              <span class="icon is-small is-left">
+                <i class="fas fa-envelope"></i>
+              </span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label" for="password">Password</label>
+            <p class="control has-icons-left">
+              <input class="input" type="password" name="password" id="password" placeholder="password" required>
+              <span class="icon is-small is-left">
+                <i class="fas fa-lock"></i>
+              </span>
+            </p>
+          </div>
+
+          <div class="field">
+            <div class="control has-text-centered">
+              <button class="button is-link">Submit</button>
+            </div>
+          </div>
+        </form>
+
+  </div>
+</div>
