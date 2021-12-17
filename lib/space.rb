@@ -97,7 +97,7 @@ class Space
   end
 
   def self.find_by_user(id:)
-    result =DatabaseConnection.query("SELECT * FROM spaces WHERE user_id = $1;", [id])
+    result =DatabaseConnection.query("SELECT * FROM spaces WHERE user_id = $1 ORDER BY id ASC;", [id])
     result.map do |space|
       Space.new(
         id: space['id'],

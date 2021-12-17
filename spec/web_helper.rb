@@ -31,7 +31,6 @@ def post_listing
   fill_in 'title', with: 'Test house'
   fill_in 'description', with: 'house description'
   fill_in 'price', with: '25'
-  fill_in 'picture', with: 'url'
   fill_in "availability_from", with: "2022/01/01"
   fill_in "availability_until", with: "2022/01/31"
   click_button 'Create space'
