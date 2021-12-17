@@ -1,3 +1,6 @@
+
+<h1>Made requests</h1>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -61,6 +64,7 @@
   <% end %>
   <p><%=booking.date %></p>
 <% end %>
+
 <hr>
 <h1>Received requests:</h1>
 <% @received_requests.each do |booking| %>
@@ -81,6 +85,7 @@
   <form action="/bookings/<%= booking.id %>/reject" method="post">
     <input type="submit" value="Reject">
   </form>
+
 <% end %>
   </div>
 </div>

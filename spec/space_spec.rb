@@ -101,5 +101,4 @@ describe 'Space' do
     expect(updated_space.availability_until).to eq '2022-02-21'
   end
 
-  # add find_by_user spec
 end

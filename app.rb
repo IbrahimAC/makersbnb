@@ -5,6 +5,7 @@ require 'sinatra/reloader'
 require './lib/user'
 require './lib/space'
 require './lib/booking'
+require './lib/email'
 require './database_connection_setup'
 require 'sinatra/flash'
 
@@ -34,9 +35,11 @@ class AirBnb < Sinatra::Base
     user = User.create(name: params[:name], email: params[:email], password: params[:password])
     if user.nil?
       flash[:danger] = 'Email address in use. Please log in or sign up with a different email.'
+      session[:id] = nil
       redirect '/user/new'
     else
       session[:id] = user.id
+      Email.send_email(user_email: user.email,event: :sign_up)
       flash[:success] = "Welcome to MakersBnB, #{user.name}"
       redirect '/spaces'
     end
@@ -82,6 +85,8 @@ class AirBnb < Sinatra::Base
 
   post '/spaces' do
     space = Space.create(title: params[:title], description: params[:description], picture: params[:picture],
+                           price: params[:price], user_id: session[:id], availability_from: params[:availability_from], availability_until: params[:availability_until])
+    Email.send_email(user_email: @user.email, event: :create_listing)
                            price: params[:price], user_id: session[:id], availability_from: params[:availability_from], availability_until: params[:availability_until]
     )
     flash[:success] = "Space created"
@@ -93,7 +98,6 @@ class AirBnb < Sinatra::Base
     @space_owner = User.find(@space.user_id)
     erb :'/spaces/space'
   end
-
 
   delete '/spaces/delete/:id' do
     Space.delete(id: params[:id])
@@ -128,14 +132,19 @@ class AirBnb < Sinatra::Base
   end
 
   post '/bookings/:id/confirm' do
+    booking = Booking.confirm(params[:id], true)
+    user = User.find(booking.user_id)
+    Email.send_email(user_email: user.email, event: :booking_confirmed)
     Booking.confirm(params[:id], true)
     redirect 'user/bookings'
   end
 
   post '/bookings/:id/reject' do
-    Booking.confirm(params[:id], false)
+    booking = Booking.confirm(params[:id], false)
+    user = User.find(booking.user_id)
+    Email.send_email(user_email: user.email, event: :booking_rejected)
     redirect 'user/bookings'
   end
 
-  run! if app_file == $PROGRAM_NAME
+run! if app_file == $PROGRAM_NAME
 end
